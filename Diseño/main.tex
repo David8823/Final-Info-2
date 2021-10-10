@@ -1,0 +1,107 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+
+
+\begin{document}
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+            
+        \huge
+        \textbf{INFORMÁTICA 2 }
+            
+        \vspace{0.5cm}
+        \huge
+        DISEÑO DEL PROYECTO FINAL
+            
+        \vspace{1.5cm}
+            
+        David Correa Ochoa\\
+        Francis David Roa    
+            
+            
+        \vfill
+            
+        \vspace{0.8cm}
+            
+        \Large
+        Departamento de Ingeniería Electrónica y Telecomunicaciones\\
+        Universidad de Antioquia\\
+        Medellín\\
+        Octubre de 2021
+            
+    \end{center}
+\end{titlepage}
+
+\newpage
+	\section{CAMBIOS A LAS PRIMERAS IDEAS}
+	Luego de una corta deliberación optamos por modificar algunas ideas y eliminar otras. Los cambios se muestran a continuación
+	\begin{enumerate}
+    \item Desarrollo de un juego de plataformas.
+    \item Múltiples niveles con diferentes puzzles para finalizar avanzar de nivel.
+    \item Múltiples niveles con diferentes entornos físicos.
+    \item Sistema de puntaje con base en la vida al final del nivel y al tiempo requerido para terminarlo.
+    \item Mejora de atributos del personaje.
+    \item Aumento de la dificultad cambiando las características de los obstáculos.
+\end{enumerate}
+\section{MODELAMIENTO DE LOS OBJETOS}
+\begin{enumerate}
+\item PERSONAJE:
+\begin{itemize}
+    \item Vida
+    \item Posición
+    \item Velocidad
+    \item Puntaje
+    \item Aceleración
+    \item Nivel
+    \item Llaves
+\end{itemize}
+\item COLECCIONABLES:
+\begin{itemize}
+    \item Tipo
+    \item Posición
+    \item efecto
+\end{itemize}
+\item OBSTÁCULOS
+\begin{itemize}
+    \item Tipo
+    \item velocidad
+    \item Posición
+\end{itemize}
+\item PROYECTILES
+\begin{itemize}
+    \item Tipo
+    \item Velocidad
+    \item Posición
+    \item tiempo
+    \item Aceleración
+\end{itemize}
+\end{enumerate}
+\section{INTERACCIONES}
+PERSONAJE-CONSUMIBLES\\
+El personaje "colisiona" con los consumibles y estos
+desaparecen de la escena, luego al personaje se le
+modifican uno o más atributos dependiendo del tipo de
+consumible con el que hizo colisión.\\
+PERSONAJE-OBSTÁCULOS\\
+El personaje colisiona con los obstáculos y dependiendo
+del tipo de obstáculo involucrado en la colisión, se alterarán uno de los siguientes atributos del personaje como;
+\begin{itemize}
+    \item La vida
+    \item La velocidad
+    \item Las llaves
+\end{itemize}
+OBSTÁCULOS-CONSUMIBLES\\
+Los consumibles no interactúan con los obstáculos.\\
+PERSONAJE-PROYECTILES\\
+El personaje colisiona con los proyectiles y los
+proyectiles desaparecen de la escena además, dependiendo
+el tipo del proyectil involucrado en la colisión se alteran temporal o
+permanentemente diferentes atributos del personaje como;
+\begin{itemize}
+    \item La vida
+    \item La velocidad
+    \item La orientación
+\end{itemize}
+\end{document}
