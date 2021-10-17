@@ -2,14 +2,14 @@
 #define PROYECTILES_H
 #include <QGraphicsItem>
 #include <QPainter>
-#define DT 0.01
+#define DT 0.1
 
 class proyectiles : public QGraphicsItem
 {
 private:
-    float px,py,vx,vy,ax;
-    float ay = 0;
-    int tipo,time;
+    float px,py,pxini,pyini,vx,vy,vyini,dt;
+    float ay = 10;
+    int tipo,time=400;
 
 public:
     proyectiles();
@@ -17,6 +17,8 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void advance(int phase);
     proyectiles(float _px, float _py, float vx, float vy);
+    int getTime() const;
+    void setTime(int value);
 };
 
 #endif // PROYECTILES_H

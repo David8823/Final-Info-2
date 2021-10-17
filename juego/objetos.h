@@ -3,7 +3,7 @@
 #include <QGraphicsItem>
 #include <QPainter>
 #include "proyectiles.h"
-
+using namespace std;
 #define DT 0.1
 
 class objetos : public QGraphicsItem
@@ -12,8 +12,6 @@ private:
     int tipo;
     float px,py,vx,vy;
     proyectiles *bala;
-
-
 public:
     objetos();
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);

@@ -18,8 +18,7 @@ objetos::objetos()
 
 proyectiles * objetos::generarbala(){
 
-    bala = new proyectiles(0,0,0,0);
-
+    bala = new proyectiles(px,py,50,-100);
     return bala;
 }
 

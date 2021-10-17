@@ -1,6 +1,16 @@
 #include "proyectiles.h"
 
 
+int proyectiles::getTime() const
+{
+    return time;
+}
+
+void proyectiles::setTime(int value)
+{
+    time = value;
+}
+
 proyectiles::proyectiles()
 {
 
@@ -8,23 +18,25 @@ proyectiles::proyectiles()
 
 proyectiles::proyectiles(float _px,float _py,float _vx,float _vy)
 {
-    px=_px;
-    py=_py;
+    pxini=_px;
+    pyini=_py;
     vx=_vx;
-    vy=_vy;
+    vyini=_vy;
+    dt=0;
 
-
-    setPos(px,py);
+    setPos(pxini,pyini);
 
 }
 
 void proyectiles::advance(int phase)
 {
-    vx = vx + ax*DT;
-    vy = vy + ay*DT;
+    vy = vyini + ay*dt;
 
-    px = px + vx*DT + 0.5*ax*DT*DT;
-    py = py + vy*DT + 0.5*ay*DT*DT;
+    px = pxini + vx*dt;
+    py = pyini + vy*dt + 0.5*ay*dt*dt;
+
+    dt=dt+DT/10;
+    time=time-20;
     setPos(px,py);
 }
 

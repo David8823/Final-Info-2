@@ -23,15 +23,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(tiempo, &QTimer::timeout, this, &MainWindow::onUpdate);
     connect(tiempo, &QTimer::timeout, this, &MainWindow::onFire);
 
-    int x , y = 0;
-
+    int x , y = 0, num_nivel=2;
+    obtener_nivel(num_nivel);
     for(int i=0; i<10 ; i++){
         y=i*40;
         for(int j=0; j<20 ; j++){
             x=j*40;
 
-            if(nivel1[i][j]!=0){
-               if(nivel1[i][j]==9){
+            if(nivel[i][j]!=0){
+               if(nivel[i][j]==9){
 
                     pj1 = new Personaje(x,y,0,0,0,3);
                     scene->addItem(pj1);
@@ -42,19 +42,17 @@ MainWindow::MainWindow(QWidget *parent)
 
 
                }
-               else if(nivel1[i][j]==8){
-                    cannon.push_back(new objetos(x,y,nivel1[i][j]));
+               else if(nivel[i][j]==8){
+                    cannon.push_back(new objetos(x,y,nivel[i][j]));
                     scene->addItem(cannon.back());
                }
 
 
                else{
-                    muros.push_back(new objetos(x,y,nivel1[i][j]));
+                    muros.push_back(new objetos(x,y,nivel[i][j]));
                     scene->addItem(muros.back());
                }
             }
-
-
         }
 
     }
@@ -155,4 +153,36 @@ void MainWindow::onFire(){
         }
     }
     else{dis++;}
+}
+
+void MainWindow:: obtener_nivel(int num_nivel)
+{
+    int cont=0,fila=0,largo=0;
+    ifstream sis;
+    string datos="";
+    sis.open("../niveles.txt");
+    while(!sis.eof())
+    {
+        getline(sis,datos);
+        if(datos[0]=='/')
+        {
+            cont = cont + 1;
+            if(cont>num_nivel)
+            {
+                break;
+            }
+        }
+        if(cont==num_nivel && datos[0]!='/')
+        {
+            largo=datos.size();
+            for(int columna=0,i=0;i<=largo;columna++)
+            {
+                nivel[fila][columna]=datos[i]-'0';
+                i=i+2;
+            }
+            fila = fila + 1;
+        }
+        datos="";
+    }
+    sis.close();
 }
