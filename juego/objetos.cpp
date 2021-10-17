@@ -16,6 +16,13 @@ objetos::objetos()
 
 }
 
+proyectiles * objetos::generarbala(){
+
+    bala = new proyectiles(0,0,0,0);
+
+    return bala;
+}
+
 QRectF objetos::boundingRect() const
 {
     return QRectF(0,0,40,40);
@@ -43,14 +50,19 @@ void objetos::advance(int phase)
 
 void objetos::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    if (tipo == 4){
-       painter->setBrush(Qt::yellow);
+    QRect j(0,0,40,40);
+    QImage puas("../imagenes/juego final/puas");
+    QImage bloque("../imagenes/juego final/bloque");
+    QImage arma("../imagenes/juego final/acofre");
+
+    if (tipo == 8){
+       painter->drawImage(j,arma);
    }else if(tipo == 1){
-       painter->setBrush(Qt::magenta);
+       painter->drawImage(j,bloque);
    }else if(tipo == 2){
-       painter->setBrush(Qt::red);
+       painter->setBrush(Qt::darkCyan);
    }else if(tipo == 3){
-       painter->setBrush(Qt::blue);
+       painter->drawImage(j,puas);
    }
 
    painter->drawRect(boundingRect());

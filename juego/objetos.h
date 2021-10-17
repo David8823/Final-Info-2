@@ -2,6 +2,7 @@
 #define OBJETOS_H
 #include <QGraphicsItem>
 #include <QPainter>
+#include "proyectiles.h"
 
 #define DT 0.1
 
@@ -10,6 +11,7 @@ class objetos : public QGraphicsItem
 private:
     int tipo;
     float px,py,vx,vy;
+    proyectiles *bala;
 
 
 public:
@@ -20,6 +22,7 @@ public:
     void advance(int phase);
     int getTipo() const;
     void setTipo(int value);
+    proyectiles * generarbala();
 };
 
 #endif // OBJETOS_H

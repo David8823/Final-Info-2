@@ -31,18 +31,69 @@ void Personaje::setNivel(int value)
     nivel = value;
 }
 
+float Personaje::getVx() const
+{
+    return vx;
+}
+
+void Personaje::setVx(float value)
+{
+    vx = value;
+}
+
+float Personaje::getVy() const
+{
+    return vy;
+}
+
+void Personaje::setVy(float value)
+{
+    vy = value;
+}
+
+float Personaje::getAy() const
+{
+    return ay;
+}
+
+void Personaje::setAy(float value)
+{
+    ay = value;
+}
+
+float Personaje::getPx() const
+{
+    return px;
+}
+
+void Personaje::setPx(float value)
+{
+    px = value;
+}
+
+float Personaje::getPy() const
+{
+    return py;
+}
+
+void Personaje::setPy(float value)
+{
+    py = value;
+}
+
 Personaje::Personaje()
 {
 
 }
 
-Personaje::Personaje(float _px, float _py, float _vx, float _vy, float _ax)
+Personaje::Personaje(float _px, float _py, float _vx, float _vy, float _ax,int _vidas)
 {
     px=_px;
     py=_py;
     vx=_vx;
     vy=_vy;
     ax=_ax;
+    vidas=_vidas;
     setPos(px,py);
 }
 
@@ -66,8 +117,10 @@ QRectF Personaje::boundingRect() const
 
 void Personaje::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    QImage player("../imagenes/juego final/barril");
 
-    painter->setBackground(Qt::magenta);
+    painter->setBrush(player);
+    //painter->setBrush(Qt::black);
     painter->drawEllipse(boundingRect());
 }
 
