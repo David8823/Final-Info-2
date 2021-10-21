@@ -70,9 +70,9 @@ void objetos::advance(int phase)
 void objetos::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QRect j(0,0,40,40);
-    QImage puas("../imagenes/juego final/puas");
-    QImage bloque("../imagenes/juego final/bloque");
-    QImage arma("../imagenes/juego final/acofre");
+    QImage puas("../juego final/puas.png");
+    QImage bloque("../juego final/bloque.png");
+    QImage arma("../juego final/acofre.png");
 
     if (tipo == 8){
        painter->drawImage(j,arma);

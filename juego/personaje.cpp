@@ -117,7 +117,7 @@ QRectF Personaje::boundingRect() const
 
 void Personaje::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    QImage player("../imagenes/juego final/barril");
+    QImage player("../juego final/barril.png");
 
     painter->setBrush(player);
     //painter->setBrush(Qt::black);
