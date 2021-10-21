@@ -2,7 +2,7 @@
 #define PROYECTILES_H
 #include <QGraphicsItem>
 #include <QPainter>
-#define DT 0.02
+#define DT 0.05
 
 class proyectiles : public QGraphicsItem
 {

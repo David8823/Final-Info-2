@@ -13,13 +13,13 @@ MainWindow::MainWindow(QWidget *parent)
     scene = new QGraphicsScene(this);
     scene->setSceneRect(0,0,0,0);
     ui->graphicsView->setScene(scene);
-    QImage fondo("../imagenes/juego final/fondo");
+    QImage fondo("../juego final/fondo.png");
 
     ui->graphicsView->setBackgroundBrush(fondo);
 
 
     tiempo = new QTimer();
-    tiempo->start(1);
+    tiempo->start(10);
 
     connect(tiempo, &QTimer::timeout, this, &MainWindow::onUpdate);
     connect(tiempo, &QTimer::timeout, this, &MainWindow::onFire);
@@ -35,11 +35,11 @@ MainWindow::MainWindow(QWidget *parent)
                if(nivel[i][j]==9){
 
                     pj1 = new Personaje(x,y,0,0,0,3);
-                    pj2 = new Personaje(x+40,y,0,0,0,3);
+                    //pj2 = new Personaje(x+40,y,0,0,0,3);
                     scene->addItem(pj1);
-                    scene->addItem(pj2);
+                    //scene->addItem(pj2);
                     scene->setSceneRect(pj1->getPx(),pj1->getPy(),0,0);
-                    scene->setSceneRect(pj2->getPx(),pj2->getPy(),0,0);
+                    //scene->setSceneRect(pj2->getPx(),pj2->getPy(),0,0);
                     ui->graphicsView->setScene(scene);
                     inix = x;
                     iniy = y;
@@ -78,37 +78,52 @@ MainWindow::~MainWindow()
 
 void MainWindow::onUpdate(){
     scene->advance();
-
+    ui->graphicsView->ensureVisible(pj1);
+    //ui->graphicsView->centerOn(pj1);
 //========================= colosiones Jugador 1============================================================================================
 
     QList<QGraphicsItem *> colisiones = scene->collidingItems(pj1); //bloques
-    if(!colisiones.isEmpty()){
-        objetos *item = dynamic_cast<objetos *>(colisiones[0]);
-        if(item)
-            if(item->getTipo()==4){
-            item->setTipo(3);}
-
+    if(!colisiones.isEmpty())
+    {
         objetos *muros = dynamic_cast<objetos *>(colisiones[0]);
         if(muros){
-            if(muros->getTipo()==4){
-                muros->setTipo(3);
-                pj1->setVx(0);
-                pj1->setVy(0);}
-
-            else if(muros->getTipo()==3 || muros->getTipo()==0){
-                pj1->setPx(inix);
-                pj1->setPy(iniy);
-                pj1->setVidas(pj1->getVidas()-1);
-
-
+            for(int i=0;i<colisiones.size();i++)
+            {
+                qDebug()<<"Lista"<<colisiones.size();
+                objetos *muros2 = dynamic_cast<objetos *>(colisiones[i]);
+                if(muros2->getTipo()==3)
+                {
+                    pj1->setPx(inix);
+                    pj1->setPy(iniy);
+                    pj1->setVidas(pj1->getVidas()-1);
+                    qDebug()<<"Pinchos"<<pj1->getPx()<<"vs"<<muros->getPx()<<"  "<<pj1->getPy()<<"vs"<<muros->getPy();
                 if(pj1->getVidas()==0){scene->removeItem(pj1);}
-            }
+                }
 
-            else if(muros->getTipo()==1 || muros->getTipo()==2){
-
-                pj1->setVy(-0.1*pj1->getVy());
-                pj1->setAy(-0.1*pj1->getAy());
-
+            else if(muros2->getTipo()==1 || muros2->getTipo()==2)
+                {
+                    if((pj1->getPx()+19>muros2->getPx()+40)&&(pj1->getPx() < (muros2->getPx()+40)) && (pj1->getPy() > muros2->getPy()))
+                    {
+                        qDebug()<<"Paso";
+                        pj1->setVy(-0.1*pj1->getVy());
+                        pj1->setAy(-0.1*pj1->getAy());
+                        pj1->setVx(0*pj1->getVx());
+                        pj1->setPx(muros2->getPx()+40);
+                    }
+                    else if((pj1->getPx()+19>muros2->getPx())&&(pj1->getPx() < muros2->getPx()) && (pj1->getPy() > muros2->getPy()))
+                    {
+                        qDebug()<<"Paso";
+                        pj1->setVy(-0.1*pj1->getVy());
+                        pj1->setAy(-0.1*pj1->getAy());
+                        pj1->setVx(0*pj1->getVx());
+                        pj1->setPx(muros2->getPx()-20);
+                    }
+                    else
+                    {
+                        pj1->setVy(-0.1*pj1->getVy());
+                        pj1->setAy(-0.1*pj1->getAy());
+                    }
+                }
             }
         }
     }
@@ -116,47 +131,11 @@ void MainWindow::onUpdate(){
         pj1->setAy(10);
     }
 
-
-   /* QList<QGraphicsItem *> colisiones2 = scene->collidingItems(pj1); //proyectiles
-    if(!colisiones2.isEmpty()){
-        proyectiles *item = dynamic_cast<proyectiles *>(colisiones2[0]);
-        if(item)
-            if(item->getTipo()==4){
-            item->setTipo(3);}
-
-        proyectiles *ammos = dynamic_cast<proyectiles *>(colisiones2[0]);
-        if(ammos){
-            if(ammos->getTipo()==1){
-                ammos->setTipo(3);
-                pj1->setVx(0);
-                pj1->setVy(0);}
-
-            else if(ammos->getTipo()==3){
-                pj1->setPx(inix);
-                pj1->setPy(iniy);
-                pj1->setVidas(pj1->getVidas()-1);
-                scene->removeItem(ammos);
-                for(list<proyectiles *>::iterator non=ammo.begin();non!=ammo.end();non++){
-                    if(ammos==*non ){ammo.remove(*non);break;}
-                }
-
-                if(pj1->getVidas()==0){scene->removeItem(pj1);}
-            }
-
-            else if(ammos->getTipo()==2){
-
-                pj1->setVy(-0.1*pj1->getVy());
-                pj1->setAy(-0.1*pj1->getAy());
-
-            }
-        }
-    }*/
-
 //=====================================================================================================================
 
 //======================== colisones Jugador 2=============================================================================================
 
-    QList<QGraphicsItem *> colisionesp2 = scene->collidingItems(pj2);
+    /*QList<QGraphicsItem *> colisionesp2 = scene->collidingItems(pj2);
     if(!colisionesp2.isEmpty()){
         objetos *item = dynamic_cast<objetos *>(colisionesp2[0]);
         if(item)
@@ -201,7 +180,7 @@ void MainWindow::onUpdate(){
     }
     else{
         pj2->setAy(10);
-    }
+    }*/
 
 //=====================================================================================================================
 
@@ -256,8 +235,6 @@ void MainWindow::onUpdate(){
     }
 //=====================================================================================================================
 
-
-
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -265,7 +242,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 //========================Controles Jugador 1==============================================================================
                 bool go=1;
-                qDebug()<<"Presione un tecla: "<<event->key();
+                //qDebug()<<"Presione un tecla: "<<event->key();
                 if(event->key() == Qt::Key_A){
                     pj1->setVx(-20);
                     /*QList<QGraphicsItem *> colisionesp2 = scene->collidingItems(pj1);
@@ -312,7 +289,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 //========================Controles Jugador 2==============================================================================
 
-                qDebug()<<"Presione un tecla: "<<event->key();
+                //qDebug()<<"Presione un tecla: "<<event->key();
                 if(event->key() == Qt::Key_J){
                     pj2->setVx(-20);
                 }else if(event->key() == Qt::Key_L){
@@ -331,7 +308,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event){
 
 //===============================Control Jugador 1=====================================================================================
 
-        qDebug()<<"Presione un tecla: "<<event->key();
+        //qDebug()<<"Presione un tecla: "<<event->key();
         if(event->key() == Qt::Key_A){
             pj1->setVx(0);
         }else if(event->key() == Qt::Key_D){
@@ -342,7 +319,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event){
 
 //===============================Control Jugador 2=======================================================================
 
-        qDebug()<<"Presione un tecla: "<<event->key();
+        //qDebug()<<"Presione un tecla: "<<event->key();
         if(event->key() == Qt::Key_J){
             pj2->setVx(0);
         }else if(event->key() == Qt::Key_L){

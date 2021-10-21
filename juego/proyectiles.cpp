@@ -60,7 +60,7 @@ QRectF proyectiles::boundingRect() const
 void proyectiles::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 
-    QImage bullet("../imagenes/juego final/bullet");
+    QImage bullet("../juego final/bullet.png");
 
     painter->setBrush(bullet);
     //painter->setBrush(Qt::green);
