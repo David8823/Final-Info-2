@@ -21,6 +21,10 @@ public:
     int getTipo() const;
     void setTipo(int value);
     proyectiles * generarbala();
+    float getPx() const;
+    void setPx(float value);
+    float getPy() const;
+    void setPy(float value);
 };
 
 #endif // OBJETOS_H

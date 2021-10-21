@@ -11,6 +11,26 @@ void objetos::setTipo(int value)
     tipo = value;
 }
 
+float objetos::getPx() const
+{
+    return px;
+}
+
+void objetos::setPx(float value)
+{
+    px = value;
+}
+
+float objetos::getPy() const
+{
+    return py;
+}
+
+void objetos::setPy(float value)
+{
+    py = value;
+}
+
 objetos::objetos()
 {
 
@@ -18,7 +38,7 @@ objetos::objetos()
 
 proyectiles * objetos::generarbala(){
 
-    bala = new proyectiles(px,py,50,-100);
+    bala = new proyectiles(px,py,50,-100,3);
     return bala;
 }
 
@@ -64,5 +84,5 @@ void objetos::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
        painter->drawImage(j,puas);
    }
 
-   painter->drawRect(boundingRect());
+
 }

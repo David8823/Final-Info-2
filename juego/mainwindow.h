@@ -38,9 +38,13 @@ private:
     QGraphicsScene *scene;
     list<objetos *> muros;
     Personaje *pj1;
+    Personaje *pj2;
     QTimer *tiempo;
     proyectiles *bala;
     list<objetos *> cannon;
     int nivel [10][20]={{0}};
+    list<proyectiles *> ammo;
+        list<proyectiles *> copyammo;
+
 };
 #endif // MAINWINDOW_H

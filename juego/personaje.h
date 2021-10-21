@@ -4,7 +4,7 @@
 #include <QPainter>
 #include <QDebug>
 
-#define DT 0.1
+#define DT 0.05
 
 class Personaje : public QGraphicsItem
 {
