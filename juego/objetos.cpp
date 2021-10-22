@@ -31,6 +31,16 @@ void objetos::setPy(float value)
     py = value;
 }
 
+float objetos::getVx() const
+{
+    return vx;
+}
+
+void objetos::setVx(float value)
+{
+    vx = value;
+}
+
 objetos::objetos()
 {
 
@@ -52,16 +62,45 @@ objetos::objetos(float _px, float _py, int _tipo)
         px=_px;
         py=_py;
         tipo = _tipo;
+        pxini= _px;
+        pyini=_py;
         setPos(px,py);
+
 }
 
 void objetos::advance(int phase)
 {
-    if(tipo==99)
+    if(tipo==5)
     {
-    px = px + vx*DT;
-    py = py + vy*DT;
-    setPos(px,py);
+        if(cont==150){
+            vx=-vx;
+            cont=0;
+        }
+
+        else{
+            px = px + vx*DT;
+            cont++;
+            setPos(px,py);
+        }
+    }
+
+    else if(tipo==4){
+
+
+        float theta0 = theta * cos(w*DT);
+        px =pxini + 1 * sin(theta0*rad);
+        py =pyini - 1 * cos(theta0*rad);
+        setPos(px,py);
+
+    }
+
+    else if(tipo==4){
+
+
+        float theta0 = theta * cos(w*DT);
+        px =pxini + 1 * sin(theta0*rad);
+        py =pyini - 1 * cos(theta0*rad);
+        setPos(px,py);
     }
 
 }
@@ -76,13 +115,14 @@ void objetos::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
     if (tipo == 8){
        painter->drawImage(j,arma);
-   }else if(tipo == 1){
+   }else if(tipo == 1 || tipo==5){
        painter->drawImage(j,bloque);
    }else if(tipo == 2){
        painter->setBrush(Qt::darkCyan);
    }else if(tipo == 3){
        painter->drawImage(j,puas);
-   }
-
+   }else if(tipo == 4){
+    painter->drawImage(j,puas);
+    }
 
 }

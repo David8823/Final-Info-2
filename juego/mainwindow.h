@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QGraphicsItem>
+#include <QGraphicsView>
 #include <QTimer>
 #include <QKeyEvent>
 #include <QDebug>
@@ -35,7 +36,7 @@ public:
     void obtener_nivel(int);
 private:
     Ui::MainWindow *ui;
-    QGraphicsScene *scene;
+    QGraphicsScene *scene,*scene2;
     list<objetos *> muros;
     Personaje *pj1;
     Personaje *pj2;
@@ -44,7 +45,9 @@ private:
     list<objetos *> cannon;
     int nivel [10][20]={{0}};
     list<proyectiles *> ammo;
-        list<proyectiles *> copyammo;
+    list<proyectiles *> copyammo;
+    QGraphicsView *v2;
+    QMainWindow *w2;
 
 };
 #endif // MAINWINDOW_H
