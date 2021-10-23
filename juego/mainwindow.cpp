@@ -4,6 +4,7 @@ int i=0,f=0;
 int inix,iniy;
 int v,a,dis = 0;
 bool multi;
+bool ps = 0;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -13,13 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
     scene = new QGraphicsScene(this);
     scene->setSceneRect(0,0,0,0);
     ui->graphicsView->setScene(scene);
-
-    w2 = new QMainWindow(this);
-    scene2 = new QGraphicsScene(this);
-    scene2->setSceneRect(0,0,0,0);
-    v2 = new QGraphicsView(scene2,w2);
-    v2->setGeometry(0,0,400,400);
-    v2->show();
+    ui->label->setVisible(false);
+    ui->Back_Menu->setVisible(false);
 
 
     QImage fondo("../juego final/fondo.png");
@@ -32,6 +28,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(tiempo, &QTimer::timeout, this, &MainWindow::onUpdate);
     connect(tiempo, &QTimer::timeout, this, &MainWindow::onFire);
+    connect(ui->Back_Menu,&QPushButton::clicked,this,&MainWindow::Menu);
+    connect(ui->pause,&QPushButton::clicked,this,&MainWindow::pause);
+
+
 
     int x , y = 0, num_nivel=1;
     obtener_nivel(num_nivel);
@@ -101,13 +101,15 @@ void MainWindow::onUpdate(){
             {
                 //qDebug()<<"Lista"<<colisiones.size();
                 objetos *muros2 = dynamic_cast<objetos *>(colisiones[i]);
-                if(muros2->getTipo()==3)
+                if(muros2->getTipo()==3 && pj1->getVidas()>=0)
                 {
                     pj1->setPx(inix);
                     pj1->setPy(iniy);
                     pj1->setVidas(pj1->getVidas()-1);
-                    qDebug()<<"Pinchos"<<pj1->getPx()<<"vs"<<muros->getPx()<<"  "<<pj1->getPy()<<"vs"<<muros->getPy();
+                    qDebug()<<"Pinchos"<<pj1->getVidas();
+                    //qDebug()<<"Pinchos"<<pj1->getPx()<<"vs"<<muros->getPx()<<"  "<<pj1->getPy()<<"vs"<<muros->getPy();
                 if(pj1->getVidas()==0){scene->removeItem(pj1);}
+                break;
                 }
 
             else if(muros2->getTipo()==1 || muros2->getTipo()==5)
@@ -115,7 +117,7 @@ void MainWindow::onUpdate(){
                                                     //izquierda
                     if( (pj1->getPx()+19>muros2->getPx()+40)&&(pj1->getPx() < (muros2->getPx()+40)) && (pj1->getPy() > muros2->getPy()) )
                     {
-                        qDebug()<<"Paso iz";
+                        //qDebug()<<"Paso iz";
                         pj1->setVy(-0.1*pj1->getVy());
                         pj1->setAy(-0.1*pj1->getAy());
                         pj1->setVx(0);
@@ -124,7 +126,7 @@ void MainWindow::onUpdate(){
                                                     //derecha
                     else if( (pj1->getPx()+19>muros2->getPx())&&(pj1->getPx() < muros2->getPx()) && (pj1->getPy() > muros2->getPy()) )
                     {
-                        qDebug()<<"Paso der";
+                        //qDebug()<<"Paso der";
                         pj1->setVy(-0.1*pj1->getVy());
                         pj1->setAy(-0.1*pj1->getAy());
                         pj1->setVx(0*pj1->getVx());
@@ -295,7 +297,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                        pj2->setVy(-40);}
                  }
 //=====================================================================================================================
+                if(event->key() == Qt::Key_P){
+                   pause();
 
+                }
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent *event){
@@ -370,4 +375,28 @@ void MainWindow:: obtener_nivel(int num_nivel)
         datos="";
     }
     sis.close();
+}
+
+void MainWindow:: Menu(){
+
+    close();
+
+
+}
+
+void MainWindow::pause(){
+
+    if(ps==0){
+        tiempo->stop();ps=1;
+        ui->label->setVisible(true);
+        ui->Back_Menu->setVisible(true);
+    }
+
+    else{
+        tiempo->start(10);ps=0;
+        ui->label->setVisible(false);
+        ui->Back_Menu->setVisible(false);
+    }
+
+
 }

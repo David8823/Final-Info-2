@@ -34,6 +34,7 @@ public:
     void keyReleaseEvent(QKeyEvent *event);
     void onFire();
     void obtener_nivel(int);
+    void pause();
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene,*scene2;
@@ -46,8 +47,9 @@ private:
     int nivel [10][20]={{0}};
     list<proyectiles *> ammo;
     list<proyectiles *> copyammo;
-    QGraphicsView *v2;
-    QMainWindow *w2;
 
+
+
+    void Menu();
 };
 #endif // MAINWINDOW_H
