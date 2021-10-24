@@ -40,10 +40,11 @@ MainWindow::MainWindow(QWidget *parent)
         for(int j=0; j<20 ; j++){
             x=j*40;
 
-            if(nivel[i][j]!=0){
-               if(nivel[i][j]==9){
-
-                    pj1 = new Personaje(x,y,0,0,0,3);
+            if(nivel[i][j]!=0)
+            {
+               if(nivel[i][j]==9)
+               {
+                   pj1= new Personaje(x,y,0,0,0,3,1,10);
                     //pj2 = new Personaje(x+40,y,0,0,0,3);
                     scene->addItem(pj1);
                     //scene->addItem(pj2);
@@ -399,4 +400,9 @@ void MainWindow::pause(){
     }
 
 
+}
+
+void MainWindow::setPj1(Personaje *value)
+{
+    pj1 = value;
 }

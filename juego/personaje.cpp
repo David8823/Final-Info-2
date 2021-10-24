@@ -86,7 +86,7 @@ Personaje::Personaje()
 
 }
 
-Personaje::Personaje(float _px, float _py, float _vx, float _vy, float _ax,int _vidas)
+Personaje::Personaje(float _px, float _py, float _vx, float _vy, float _ax,int _vidas,int _nivel, int _puntaje)
 {
     px=_px;
     py=_py;
@@ -94,6 +94,8 @@ Personaje::Personaje(float _px, float _py, float _vx, float _vy, float _ax,int _
     vy=_vy;
     ax=_ax;
     vidas=_vidas;
+    nivel=_nivel;
+    puntaje=_puntaje;
     setPos(px,py);
 }
 

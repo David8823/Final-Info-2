@@ -35,6 +35,8 @@ public:
     void onFire();
     void obtener_nivel(int);
     void pause();
+    void setPj1(Personaje *value);
+
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene,*scene2;

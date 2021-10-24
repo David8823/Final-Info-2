@@ -21,7 +21,7 @@ public:
     Personaje();
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    Personaje(float _px, float _py, float _vx, float _vy, float _ax,int _vidas);
+    Personaje(float _px, float _py, float _vx, float _vy, float _ax,int _vidas, int _nivel, int _puntaje);
     void advance(int phase);
     int getVidas() const;
     void setVidas(int value);
