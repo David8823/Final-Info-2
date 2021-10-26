@@ -16,25 +16,25 @@ Inicio::Inicio(QWidget *parent) :
 {
     ui->setupUi(this);
 
-
-    QImage fondo2("../juego final/fondoini.jpg");
-    ui->graphicsView->setBackgroundBrush(fondo2);
-
     tiempo1 = new QTimer();
     tiempo1->start(1);
 
     loadclose();
-    newgameclose();
+
 
     //ui->label->setStyleSheet("background-image:");
 
-    connect(ui->newpj,&QPushButton::clicked,this,&Inicio::startgame);
     connect(tiempo1, &QTimer::timeout, this, &Inicio::abrir);
-    connect(ui->exit,&QPushButton::clicked,this,&Inicio::closegame);
+
+    connect(ui->newpj,&QPushButton::clicked,this,&Inicio::on_newbutton_clicked);
+    connect(ui->loadbutton,&QPushButton::clicked,this,&Inicio::on_loadbutton_clicked);
+
+    connect(ui->newbutton,&QPushButton::clicked,this,&Inicio::newgame);
     connect(ui->continue_2,&QPushButton::clicked,this,&Inicio::loadgame);
+
     connect(ui->loadBack,&QPushButton::clicked,this,&Inicio::loadclose);
-    connect(ui->newBack_2,&QPushButton::clicked,this,&Inicio::newgameclose);
-    connect(ui->push1,&QPushButton::clicked,this,&Inicio::newgame);
+    connect(ui->exit,&QPushButton::clicked,this,&Inicio::closegame);
+
 
 
     juego = new MainWindow();
@@ -66,8 +66,8 @@ void Inicio::startgame(){
 
 void Inicio::abrir(){
     if(juego->isHidden()){
-            setVisible(true);
-        }
+        setVisible(true);
+    }
 
 }
 
@@ -78,13 +78,22 @@ void Inicio::closegame(){
 
 }
 
+void Inicio::newgame(){
+
+    ui->loadBack->setVisible(true);
+    ui->Cuenta_2->setVisible(true);
+    ui->incuenta->setVisible(true);
+    ui->newpj->setVisible(true);
+    ui->fondocon->setVisible(true);
+}
+
 void Inicio::loadgame(){
 
     ui->loadBack->setVisible(true);
     ui->Cuenta->setVisible(true);
-    ui->loadView->setVisible(true);
     ui->incuenta->setVisible(true);
     ui->loadbutton->setVisible(true);
+    ui->fondocon->setVisible(true);
 
 
 }
@@ -92,15 +101,19 @@ void Inicio::loadgame(){
 void Inicio::loadclose(){
     ui->loadBack->setVisible(false);
     ui->Cuenta->setVisible(false);
-    ui->loadView->setVisible(false);
     ui->incuenta->setVisible(false);
     ui->loadbutton->setVisible(false);
     ui->invalido->setVisible(false);
-    ui->invalido->setVisible(false);
+    ui->loadBack->setVisible(false);
+    ui->Cuenta_2->setVisible(false);
+    ui->incuenta->setVisible(false);
+    ui->newpj->setVisible(false);
+    ui->fondocon->setVisible(false);
 }
 
 void Inicio::on_loadbutton_clicked()
 {
+
     ifstream datos;
     ofstream _datos;
     QString nombre=ui->incuenta->text();//,nivel,puntaje;
@@ -154,21 +167,10 @@ void Inicio::on_loadbutton_clicked()
     }
 }
 
-void Inicio::newgameclose(){
-    ui->newBack_2->setVisible(false);
-    ui->Cuenta_2->setVisible(false);
-    ui->incuenta_2->setVisible(false);
-    ui->invalido_2->setVisible(false);
-    ui->newpj->setVisible(false);
-    ui->newView->setVisible(false);
-}
 
-void Inicio::newgame(){
+void Inicio::on_newbutton_clicked(){
 
-    ui->newBack_2->setVisible(true);
-    ui->Cuenta_2->setVisible(true);
-    ui->incuenta_2->setVisible(true);
-    ui->newpj->setVisible(true);
-    ui->newView->setVisible(true);
+
 
 }
+
