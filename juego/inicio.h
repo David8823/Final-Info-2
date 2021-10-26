@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include "mainwindow.h"
-//#include "personaje.h"
 #include <QPushButton>
 
 
@@ -24,6 +23,9 @@ public:
     void closegame();
     void loadgame();
     void loadclose();
+
+    void newgameclose();
+    void newgame();
 private slots:
     void on_loadbutton_clicked();
 
@@ -32,6 +34,8 @@ private:
     MainWindow *juego;
     QTimer *tiempo1;
     Personaje *efe;
+    int vidas=3,level=1,score=0;
+
 
 };
 

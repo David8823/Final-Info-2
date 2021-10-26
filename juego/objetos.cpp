@@ -41,6 +41,21 @@ void objetos::setVx(float value)
     vx = value;
 }
 
+float objetos::getVy() const
+{
+    return vy;
+}
+
+void objetos::setVy(float value)
+{
+    vy = value;
+}
+
+int objetos::getCont() const
+{
+    return cont;
+}
+
 objetos::objetos()
 {
 
@@ -86,23 +101,36 @@ void objetos::advance(int phase)
 
     else if(tipo==4){
 
+        if(cont==10){
+            i = i + DT;
+            float theta0 = theta * cos(w*i);
+            px =pxini + 90 * sin(theta0*rad);
+            py =pyini + 90 * cos(theta0*rad);
+            setPos(px,py);
+            cont=0;
+        }
 
-        float theta0 = theta * cos(w*DT);
-        px =pxini + 1 * sin(theta0*rad);
-        py =pyini - 1 * cos(theta0*rad);
-        setPos(px,py);
+        else{cont++;}
 
     }
 
-    else if(tipo==4){
+    else if(tipo==6){
 
+        if(cont==10){
 
-        float theta0 = theta * cos(w*DT);
-        px =pxini + 1 * sin(theta0*rad);
-        py =pyini - 1 * cos(theta0*rad);
-        setPos(px,py);
+            i = i + DT;
+            vx=5*cos(i);
+            vy=5*sin(i);
+            px =px + 5*cos(i);
+            py =py + 5*sin(i);
+            setPos(px,py);
+            cont =0;
+
+        }
+
+        else{cont++;}
+
     }
-
 }
 
 
@@ -112,17 +140,20 @@ void objetos::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     QImage puas("../juego final/puas.png");
     QImage bloque("../juego final/bloque.png");
     QImage arma("../juego final/acofre.png");
+    QImage door("../juego final/door.png");
 
     if (tipo == 8){
        painter->drawImage(j,arma);
-   }else if(tipo == 1 || tipo==5){
+   }else if(tipo == 1 || tipo==5 || tipo==6){
        painter->drawImage(j,bloque);
    }else if(tipo == 2){
        painter->setBrush(Qt::darkCyan);
-   }else if(tipo == 3){
+   }else if(tipo == 3 ){
        painter->drawImage(j,puas);
    }else if(tipo == 4){
-    painter->drawImage(j,puas);
+        painter->drawImage(j,puas);
+    }else if(tipo == 7){
+        painter->drawImage(j,door);
     }
 
 }

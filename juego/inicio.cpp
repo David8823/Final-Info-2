@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <cstdlib>
 #include <QDebug>
+
 bool cont = 0;
 
 Inicio::Inicio(QWidget *parent) :
@@ -23,15 +24,24 @@ Inicio::Inicio(QWidget *parent) :
     tiempo1->start(1);
 
     loadclose();
+    newgameclose();
 
+    //ui->label->setStyleSheet("background-image:");
 
-    connect(ui->push1,&QPushButton::clicked,this,&Inicio::startgame);
+    connect(ui->newpj,&QPushButton::clicked,this,&Inicio::startgame);
     connect(tiempo1, &QTimer::timeout, this, &Inicio::abrir);
     connect(ui->exit,&QPushButton::clicked,this,&Inicio::closegame);
     connect(ui->continue_2,&QPushButton::clicked,this,&Inicio::loadgame);
     connect(ui->loadBack,&QPushButton::clicked,this,&Inicio::loadclose);
+    connect(ui->newBack_2,&QPushButton::clicked,this,&Inicio::newgameclose);
+    connect(ui->push1,&QPushButton::clicked,this,&Inicio::newgame);
+
 
     juego = new MainWindow();
+
+
+
+
 
 }
 
@@ -46,7 +56,8 @@ void Inicio::startgame(){
 
        delete juego;
     }
-    juego = new MainWindow();
+    QWidget *parent = nullptr;
+    juego = new MainWindow(parent,vidas,level,score);
     juego->show();
     setVisible(false);
     cont = 1;
@@ -75,6 +86,7 @@ void Inicio::loadgame(){
     ui->incuenta->setVisible(true);
     ui->loadbutton->setVisible(true);
 
+
 }
 
 void Inicio::loadclose(){
@@ -83,6 +95,7 @@ void Inicio::loadclose(){
     ui->loadView->setVisible(false);
     ui->incuenta->setVisible(false);
     ui->loadbutton->setVisible(false);
+    ui->invalido->setVisible(false);
     ui->invalido->setVisible(false);
 }
 
@@ -122,7 +135,9 @@ void Inicio::on_loadbutton_clicked()
                 dato="";
             }
             datos.close();
-        efe = new Personaje(0,0,0,0,0,vida,nivel,puntaje);
+        vidas = vida;
+        score = puntaje;
+        level = nivel;
         startgame();
         loadclose();
     }
@@ -137,4 +152,23 @@ void Inicio::on_loadbutton_clicked()
         _datos<<_puntaje;*/
         ui->invalido->setVisible(true);
     }
+}
+
+void Inicio::newgameclose(){
+    ui->newBack_2->setVisible(false);
+    ui->Cuenta_2->setVisible(false);
+    ui->incuenta_2->setVisible(false);
+    ui->invalido_2->setVisible(false);
+    ui->newpj->setVisible(false);
+    ui->newView->setVisible(false);
+}
+
+void Inicio::newgame(){
+
+    ui->newBack_2->setVisible(true);
+    ui->Cuenta_2->setVisible(true);
+    ui->incuenta_2->setVisible(true);
+    ui->newpj->setVisible(true);
+    ui->newView->setVisible(true);
+
 }

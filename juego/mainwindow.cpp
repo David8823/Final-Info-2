@@ -7,6 +7,11 @@ bool multi;
 bool ps = 0;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
+    , ui(new Ui::MainWindow){}
+
+
+MainWindow::MainWindow(QWidget *parent,int vidas,int level ,int score)
+    : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -16,6 +21,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setScene(scene);
     ui->label->setVisible(false);
     ui->Back_Menu->setVisible(false);
+
+    player = new QMediaPlayer;
+    player->setMedia(QUrl::fromLocalFile("../juego final/mario.mp3"));
+    player->setVolume(50);
+    player->play();
 
 
     QImage fondo("../juego final/fondo.png");
@@ -33,18 +43,17 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
-    int x , y = 0, num_nivel=1;
-    obtener_nivel(num_nivel);
+    int x , y = 0;
+    obtener_nivel(level);
     for(int i=0; i<10 ; i++){
         y=i*40;
         for(int j=0; j<20 ; j++){
             x=j*40;
 
-            if(nivel[i][j]!=0)
-            {
-               if(nivel[i][j]==9)
-               {
-                   pj1= new Personaje(x,y,0,0,0,3,1,10);
+            if(nivel[i][j]!=0){
+               if(nivel[i][j]==9){
+
+                    pj1 = new Personaje(x,y,0,0,0,vidas,level,score);
                     //pj2 = new Personaje(x+40,y,0,0,0,3);
                     scene->addItem(pj1);
                     //scene->addItem(pj2);
@@ -87,6 +96,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
 void MainWindow::onUpdate(){
     scene->advance();
     ui->graphicsView->ensureVisible(pj1);
@@ -113,7 +123,7 @@ void MainWindow::onUpdate(){
                 break;
                 }
 
-            else if(muros2->getTipo()==1 || muros2->getTipo()==5)
+            else if(muros2->getTipo()==1 || muros2->getTipo()==5 || muros2->getTipo()==6)
                 {
                                                     //izquierda
                     if( (pj1->getPx()+19>muros2->getPx()+40)&&(pj1->getPx() < (muros2->getPx()+40)) && (pj1->getPy() > muros2->getPy()) )
@@ -143,11 +153,24 @@ void MainWindow::onUpdate(){
                     }
                     else
                     {
-                        if(muros->getTipo()==5){pj1->setVx(i+muros->getVx());}
+                        if(muros2->getTipo()==5 || muros2->getTipo()==6){
+                            if(muros2->getCont()==10){
+                            pj1->setVx(i+muros2->getVx());}
 
-                        pj1->setVy(-0.1*pj1->getVy());
-                        pj1->setAy(-0.1*pj1->getAy());
+                        }
 
+
+                        if(muros2->getTipo()==6){
+                            if(f==1){pj1->setVy(-20);}
+
+                            else{pj1->setVy(muros2->getVy()-4);}
+                        }
+
+
+                        else{
+                            pj1->setVy(-0.1*pj1->getVy());
+                            pj1->setAy(-0.1*pj1->getAy());
+                        }
 
 
                     }
@@ -221,10 +244,7 @@ void MainWindow::onUpdate(){
       bu= *n;
       QList<QGraphicsItem *> colisionesbala = scene->collidingItems(bu);
       if(!colisionesbala.isEmpty()){
-          objetos *item = dynamic_cast<objetos *>(colisionesbala[0]);
-          if(item)
-              if(item->getTipo()==4){
-              item->setTipo(3);}
+
 
           objetos *muros = dynamic_cast<objetos *>(colisionesbala[0]);
           if(muros){
@@ -266,6 +286,11 @@ void MainWindow::onUpdate(){
 
 }
 
+
+
+
+
+
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
 
@@ -279,8 +304,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 }else if(event->key() == Qt::Key_W){
                    QList<QGraphicsItem *> colisiones = scene->collidingItems(pj1);
                     if(!colisiones.isEmpty()){
-
-                       pj1->setVy(-40);}
+                        f=1;
+                        pj1->setVy(-40);}
                  }
 //=====================================================================================================================
 
@@ -314,6 +339,8 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event){
             i=0;
         }else if(event->key() == Qt::Key_D){
             pj1->setVx(0);
+        }else if(event->key() == Qt::Key_W){
+            f=0;
         }
 
 //=====================================================================================================================
@@ -400,9 +427,4 @@ void MainWindow::pause(){
     }
 
 
-}
-
-void MainWindow::setPj1(Personaje *value)
-{
-    pj1 = value;
 }

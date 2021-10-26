@@ -17,8 +17,9 @@ private:
     float px,py,vx=10,vy;
     proyectiles *bala;
     int cont = 0;
-    float theta = 60; // angulo
+    float theta = 90; // angulo
     float w = sqrt(G/1); //gravedad por logingitud
+    float i = 1;
     float pyini,pxini;
 public:
     objetos();
@@ -35,6 +36,9 @@ public:
     void setPy(float value);
     float getVx() const;
     void setVx(float value);
+    float getVy() const;
+    void setVy(float value);
+    int getCont() const;
 };
 
 #endif // OBJETOS_H
