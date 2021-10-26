@@ -25,7 +25,7 @@
     </property>
     <property name="styleSheet">
      <string notr="true">
-background-color: rgb(136, 136, 136);</string>
+background-color: rgb(0, 0, 0);</string>
     </property>
    </widget>
    <widget class="QPushButton" name="Back_Menu">

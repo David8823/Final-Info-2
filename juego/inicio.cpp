@@ -60,6 +60,7 @@ void Inicio::startgame(){
     juego = new MainWindow(parent,vidas,level,score);
     juego->show();
     setVisible(false);
+    ui->invalido->setVisible(false);
     cont = 1;
 
 }
@@ -85,6 +86,7 @@ void Inicio::newgame(){
     ui->incuenta->setVisible(true);
     ui->newpj->setVisible(true);
     ui->fondocon->setVisible(true);
+    ui->invalido->setVisible(false);
 }
 
 void Inicio::loadgame(){
@@ -94,6 +96,7 @@ void Inicio::loadgame(){
     ui->incuenta->setVisible(true);
     ui->loadbutton->setVisible(true);
     ui->fondocon->setVisible(true);
+    ui->invalido->setVisible(false);
 
 
 }
@@ -104,16 +107,14 @@ void Inicio::loadclose(){
     ui->incuenta->setVisible(false);
     ui->loadbutton->setVisible(false);
     ui->invalido->setVisible(false);
-    ui->loadBack->setVisible(false);
     ui->Cuenta_2->setVisible(false);
-    ui->incuenta->setVisible(false);
     ui->newpj->setVisible(false);
     ui->fondocon->setVisible(false);
 }
 
 void Inicio::on_loadbutton_clicked()
 {
-
+    ui->invalido->setVisible(false);
     ifstream datos;
     ofstream _datos;
     QString nombre=ui->incuenta->text();//,nivel,puntaje;

@@ -140,18 +140,21 @@ void objetos::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     QImage puas("../juego final/puas.png");
     QImage bloque("../juego final/bloque.png");
     QImage arma("../juego final/acofre.png");
-    QImage door("../juego final/door.png");
+    QImage door("../imagenes/juego final/door.png");
+    QImage pend("../imagenes/juego final/pendulo.png");
+    QImage stair("../imagenes/juego final/stair.png");
+
 
     if (tipo == 8){
        painter->drawImage(j,arma);
    }else if(tipo == 1 || tipo==5 || tipo==6){
        painter->drawImage(j,bloque);
    }else if(tipo == 2){
-       painter->setBrush(Qt::darkCyan);
+       painter->drawImage(j,stair);
    }else if(tipo == 3 ){
        painter->drawImage(j,puas);
    }else if(tipo == 4){
-        painter->drawImage(j,puas);
+        painter->drawImage(j,pend);
     }else if(tipo == 7){
         painter->drawImage(j,door);
     }

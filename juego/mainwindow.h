@@ -46,10 +46,11 @@ private:
     QTimer *tiempo;
     proyectiles *bala;
     list<objetos *> cannon;
-    int nivel [10][20]={{0}};
+    int nivel [20][60]={{0}};
     list<proyectiles *> ammo;
     list<proyectiles *> copyammo;
     QMediaPlayer *player;
+
 
 
     void Menu();

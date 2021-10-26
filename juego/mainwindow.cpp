@@ -28,7 +28,8 @@ MainWindow::MainWindow(QWidget *parent,int vidas,int level ,int score)
     player->play();
 
 
-    QImage fondo("../juego final/fondo.png");
+    QImage fondo("../imagenes/juego final/background4b.png");
+    fondo.scaled(100,100);
     ui->graphicsView->setBackgroundBrush(fondo);
 
 
@@ -45,9 +46,9 @@ MainWindow::MainWindow(QWidget *parent,int vidas,int level ,int score)
 
     int x , y = 0;
     obtener_nivel(level);
-    for(int i=0; i<10 ; i++){
+    for(int i=0; i<20 ; i++){ //alto
         y=i*40;
-        for(int j=0; j<20 ; j++){
+        for(int j=0; j<60 ; j++){ //ancho
             x=j*40;
 
             if(nivel[i][j]!=0){
@@ -58,6 +59,7 @@ MainWindow::MainWindow(QWidget *parent,int vidas,int level ,int score)
                     scene->addItem(pj1);
                     //scene->addItem(pj2);
                     scene->setSceneRect(pj1->getPx(),pj1->getPy(),0,0);
+                    scene->foregroundBrush();
                     //scene->setSceneRect(pj2->getPx(),pj2->getPy(),0,0);
                     ui->graphicsView->setScene(scene);
                     inix = x;
@@ -100,7 +102,10 @@ MainWindow::~MainWindow()
 void MainWindow::onUpdate(){
     scene->advance();
     ui->graphicsView->ensureVisible(pj1);
-    //ui->graphicsView->centerOn(pj1);
+    ui->graphicsView->centerOn(pj1->getPx(),pj1->getPy());
+    scene->setFocusItem(pj1);
+
+
 //========================= colosiones Jugador 1============================================================================================
 
     QList<QGraphicsItem *> colisiones = scene->collidingItems(pj1); //bloques
@@ -123,7 +128,14 @@ void MainWindow::onUpdate(){
                 break;
                 }
 
-            else if(muros2->getTipo()==1 || muros2->getTipo()==5 || muros2->getTipo()==6)
+                else if(muros2->getTipo()==2){
+                    pj1->setAy(0);
+                    pj1->setVx(0);
+
+                }
+
+
+                else if(muros2->getTipo()==1 || muros2->getTipo()==5 || muros2->getTipo()==6)
                 {
                                                     //izquierda
                     if( (pj1->getPx()+19>muros2->getPx()+40)&&(pj1->getPx() < (muros2->getPx()+40)) && (pj1->getPy() > muros2->getPy()) )
@@ -304,6 +316,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 }else if(event->key() == Qt::Key_W){
                    QList<QGraphicsItem *> colisiones = scene->collidingItems(pj1);
                     if(!colisiones.isEmpty()){
+
                         f=1;
                         pj1->setVy(-40);}
                  }
@@ -319,9 +332,15 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 }else if(event->key() == Qt::Key_I){
                    QList<QGraphicsItem *> colisiones = scene->collidingItems(pj2);
                     if(!colisiones.isEmpty()){
+                        objetos *muros = dynamic_cast<objetos *>(colisiones[0]);
 
-                       pj2->setVy(-40);}
-                 }
+                        if(muros->getTipo()==2){pj2->setVy(-10);}
+
+                        else{pj2->setVy(-40);}
+                    }
+                }
+
+
 //=====================================================================================================================
                 if(event->key() == Qt::Key_P){
                    pause();
