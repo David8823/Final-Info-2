@@ -99,7 +99,7 @@ void objetos::advance(int phase)
         }
     }
 
-    else if(tipo==4){
+    else if(tipo==99){
 
         if(cont==10){
             i = i + DT;
@@ -140,7 +140,7 @@ void objetos::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     QImage puas("../juego final/puas.png");
     QImage bloque("../juego final/bloque.png");
     QImage arma("../juego final/acofre.png");
-    QImage door("../imagenes/juego final/door.png");
+    QImage doorc("../imagenes/juego final/doorc.png");
     QImage pend("../imagenes/juego final/pendulo.png");
     QImage stair("../imagenes/juego final/stair.png");
 
@@ -153,10 +153,10 @@ void objetos::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
        painter->drawImage(j,stair);
    }else if(tipo == 3 ){
        painter->drawImage(j,puas);
-   }else if(tipo == 4){
+   }else if(tipo == 99){
         painter->drawImage(j,pend);
     }else if(tipo == 7){
-        painter->drawImage(j,door);
+        painter->drawImage(j,doorc);
     }
 
 }

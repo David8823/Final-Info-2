@@ -15,6 +15,7 @@
 #include "objetos.h"
 #include "proyectiles.h"
 #include "personaje.h"
+#include "coleccionables.h"
 
 using namespace std;
 
@@ -37,6 +38,7 @@ public:
     void onFire();
     void obtener_nivel(int);
     void pause();
+    void crearmundo(int,int,int);
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene,*scene2;
@@ -50,6 +52,10 @@ private:
     list<proyectiles *> ammo;
     list<proyectiles *> copyammo;
     QMediaPlayer *player;
+    int conti = 0;
+    Coleccionables *llave;
+    list<Coleccionables *> botin;
+    list<Coleccionables *> copybotin;
 
 
 

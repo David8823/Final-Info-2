@@ -14,7 +14,7 @@ private:
     float px,py,vx,vy,ax;
     float ay = 10;
     int nivel;
-    int llaves;
+    int llaves = 0;
     int medallones;
 
 public:
@@ -39,6 +39,8 @@ public:
     void setPx(float value);
     float getPy() const;
     void setPy(float value);
+    int getLlaves() const;
+    void setLlaves(int value);
 };
 
 

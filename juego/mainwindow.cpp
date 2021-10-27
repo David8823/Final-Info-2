@@ -16,16 +16,7 @@ MainWindow::MainWindow(QWidget *parent,int vidas,int level ,int score)
 {
     ui->setupUi(this);
 
-    scene = new QGraphicsScene(this);
-    scene->setSceneRect(0,0,0,0);
-    ui->graphicsView->setScene(scene);
-    ui->label->setVisible(false);
-    ui->Back_Menu->setVisible(false);
 
-    player = new QMediaPlayer;
-    player->setMedia(QUrl::fromLocalFile("../juego final/mario.mp3"));
-    player->setVolume(50);
-    player->play();
 
 
     QImage fondo("../imagenes/juego final/background4b.png");
@@ -43,49 +34,7 @@ MainWindow::MainWindow(QWidget *parent,int vidas,int level ,int score)
     connect(ui->pause,&QPushButton::clicked,this,&MainWindow::pause);
 
 
-
-    int x , y = 0;
-    obtener_nivel(level);
-    for(int i=0; i<20 ; i++){ //alto
-        y=i*40;
-        for(int j=0; j<60 ; j++){ //ancho
-            x=j*40;
-
-            if(nivel[i][j]!=0){
-               if(nivel[i][j]==9){
-
-                    pj1 = new Personaje(x,y,0,0,0,vidas,level,score);
-                    //pj2 = new Personaje(x+40,y,0,0,0,3);
-                    scene->addItem(pj1);
-                    //scene->addItem(pj2);
-                    scene->setSceneRect(pj1->getPx(),pj1->getPy(),0,0);
-                    scene->foregroundBrush();
-                    //scene->setSceneRect(pj2->getPx(),pj2->getPy(),0,0);
-                    ui->graphicsView->setScene(scene);
-                    inix = x;
-                    iniy = y;
-
-
-
-
-               }
-               else if(nivel[i][j]==8){
-                    cannon.push_back(new objetos(x,y,nivel[i][j]));
-                    scene->addItem(cannon.back());
-
-               }
-
-
-               else{
-                    muros.push_back(new objetos(x,y,nivel[i][j]));
-                    scene->addItem(muros.back());
-               }
-            }
-        }
-
-    }
-    scene->setSceneRect(pj1->getPx(),pj1->getPy(),0,0);
-    ui->graphicsView->setScene(scene);
+    crearmundo(vidas,level,score);
 
 
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -134,6 +83,13 @@ void MainWindow::onUpdate(){
 
                 }
 
+                else if(muros2->getTipo()==7){
+                    if( (pj1->getNivel()==1 && pj1->getLlaves()==2) || (pj1->getNivel()==2 && pj1->getLlaves()==3) || (pj1->getNivel()==3 && pj1->getLlaves()==5) ){
+                        pj1->setNivel(pj1->getNivel()+1);
+                        conti=1;
+                        crearmundo(pj1->getVidas(),pj1->getNivel(),pj1->getPuntaje());
+                    }
+                }
 
                 else if(muros2->getTipo()==1 || muros2->getTipo()==5 || muros2->getTipo()==6)
                 {
@@ -248,7 +204,7 @@ void MainWindow::onUpdate(){
 
 //=====================================================================================================================
 
-//============================ colosiones proyectiles ====================================================================
+//============================ colisiones proyectiles ====================================================================
 
     copyammo = ammo;
     proyectiles *bu;
@@ -295,6 +251,53 @@ void MainWindow::onUpdate(){
       }
     }
 //=====================================================================================================================
+
+//======================== Colisiones Coleccionables ====================================================================================
+
+    copybotin = botin;
+    Coleccionables *bot;
+    for(list<Coleccionables *>::iterator n=copybotin.begin();n!=copybotin.end();n++){
+      bot = *n;
+      QList<QGraphicsItem *> colisionesbotin = scene->collidingItems(bot);
+      if(!colisionesbotin.isEmpty()){
+
+
+          objetos *muros = dynamic_cast<objetos *>(colisionesbotin[0]);
+          if(muros){
+              if(muros->getTipo()==1){
+                  scene->removeItem(bot);
+                  for(list<Coleccionables *>::iterator non=botin.begin();non!=botin.end();non++){
+                      if(bot==*non ){botin.remove(*non);break;}
+                  }
+
+              }
+
+              else{
+
+              }
+          }
+
+          else{
+              Personaje *personajes = dynamic_cast<Personaje *>(colisionesbotin[0]);
+              if(personajes){
+                  scene->removeItem(bot);
+                  pj1->setLlaves(pj1->getLlaves()+1);
+                  qDebug()<<"Presione un tecla: "<<pj1->getLlaves();
+                  for(list<Coleccionables *>::iterator non=botin.begin();non!=botin.end();non++){
+                      if(bot==*non ){botin.remove(*non);break;}
+                  }
+
+                  if(personajes->getVidas()==0){scene->removeItem(personajes);}
+
+
+              }
+
+          }
+
+      }
+    }
+
+//=========================================================================================================================
 
 }
 
@@ -444,6 +447,69 @@ void MainWindow::pause(){
         ui->label->setVisible(false);
         ui->Back_Menu->setVisible(false);
     }
+
+
+}
+
+void MainWindow::crearmundo(int vidas,int level,int score){
+
+    if(conti==1){scene->destroyed();}
+
+    scene = new QGraphicsScene(this);
+    scene->setSceneRect(0,0,0,0);
+    ui->graphicsView->setScene(scene);
+    ui->label->setVisible(false);
+    ui->Back_Menu->setVisible(false);
+
+
+    int x , y = 0;
+    obtener_nivel(level);
+    for(int i=0; i<20 ; i++){ //alto
+        y=i*40;
+        for(int j=0; j<60 ; j++){ //ancho
+            x=j*40;
+
+            if(nivel[i][j]!=0){
+               if(nivel[i][j]==9){
+
+                    pj1 = new Personaje(x,y,0,0,0,vidas,level,score);
+                    //pj2 = new Personaje(x+40,y,0,0,0,3);
+                    scene->addItem(pj1);
+                    //scene->addItem(pj2);
+                    scene->setSceneRect(pj1->getPx(),pj1->getPy(),0,0);
+                    scene->foregroundBrush();
+                    //scene->setSceneRect(pj2->getPx(),pj2->getPy(),0,0);
+                    ui->graphicsView->setScene(scene);
+                    inix = x;
+                    iniy = y;
+
+
+
+
+               }
+               else if(nivel[i][j]==8){
+                    cannon.push_back(new objetos(x,y,nivel[i][j]));
+                    scene->addItem(cannon.back());
+
+               }
+
+               else if(nivel[i][j]==4){
+                   botin.push_back(new Coleccionables(x,y,nivel[i][j]));
+                   scene->addItem(botin.back());
+
+               }
+
+               else{
+
+                   muros.push_back(new objetos(x,y,nivel[i][j]));
+                   scene->addItem(muros.back());
+               }
+            }
+        }
+
+    }
+    scene->setSceneRect(pj1->getPx(),pj1->getPy(),0,0);
+    ui->graphicsView->setScene(scene);
 
 
 }

@@ -6,8 +6,16 @@
 
 class Coleccionables : public QGraphicsItem
 {
+private:
+    int tipo;
+    float px,py;
+
+
 public:
     Coleccionables();
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    Coleccionables(float _px, float _py, int _tipo);
 };
 
 #endif // COLECCIONABLES_H

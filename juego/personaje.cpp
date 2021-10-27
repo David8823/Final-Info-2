@@ -81,6 +81,16 @@ void Personaje::setPy(float value)
     py = value;
 }
 
+int Personaje::getLlaves() const
+{
+    return llaves;
+}
+
+void Personaje::setLlaves(int value)
+{
+    llaves = value;
+}
+
 Personaje::Personaje()
 {
 
