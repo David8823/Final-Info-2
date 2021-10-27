@@ -39,7 +39,7 @@ private:
     Ui::Inicio *ui;
     MainWindow *juego;
     QTimer *tiempo1;
-    int vidas=3,level=1,score=0;
+    int vidas=3,level=1,score=0,puntaje_maximo=0;
     string nombre;
 };
 

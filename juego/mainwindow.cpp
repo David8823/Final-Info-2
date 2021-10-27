@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow){}
 
 
-MainWindow::MainWindow(QWidget *parent,int vidas,int level ,int score, string name)
+MainWindow::MainWindow(QWidget *parent,int vidas,int level ,int score, string name, int p_max)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
@@ -31,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent,int vidas,int level ,int score, string na
     connect(ui->pause,&QPushButton::clicked,this,&MainWindow::pause);
 
 
-    crearmundo(vidas,level,score,name);
+    crearmundo(vidas,level,score,name,p_max);
 
 
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -96,7 +96,7 @@ void MainWindow::onUpdate(){
                         archivo<<"/\n";
                         archivo<<pj1->getVidas();
                         archivo.close();
-                        crearmundo(pj1->getVidas(),pj1->getNivel(),pj1->getPuntaje(),pj1->getNombre());
+                        crearmundo(pj1->getVidas(),pj1->getNivel(),pj1->getPuntaje(),pj1->getNombre(),pj1->getPuntaje_maximo());
                     }
                 }
 
@@ -455,7 +455,7 @@ void MainWindow::pause(){
 
 }
 
-void MainWindow::crearmundo(int vidas,int level,int score,string name){
+void MainWindow::crearmundo(int vidas,int level,int score,string name,int p_max){
 
     if(conti==1){scene->destroyed();}
 
@@ -476,7 +476,7 @@ void MainWindow::crearmundo(int vidas,int level,int score,string name){
             if(nivel[i][j]!=0){
                if(nivel[i][j]==9){
 
-                    pj1 = new Personaje(x,y,0,0,0,vidas,level,score,name);
+                    pj1 = new Personaje(x,y,0,0,0,vidas,level,score,name,p_max);
                     //pj2 = new Personaje(x+40,y,0,0,0,3);
                     scene->addItem(pj1);
                     //scene->addItem(pj2);

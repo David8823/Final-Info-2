@@ -12,6 +12,7 @@ class Personaje : public QGraphicsItem
 private:
     int vidas;
     int puntaje;
+    int puntaje_maximo;
     float px,py,vx,vy,ax;
     float ay = 10;
     int nivel;
@@ -23,7 +24,7 @@ public:
     Personaje();
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    Personaje(float _px, float _py, float _vx, float _vy, float _ax,int _vidas, int _nivel, int _puntaje, std::string);
+    Personaje(float _px, float _py, float _vx, float _vy, float _ax,int _vidas, int _nivel, int _puntaje, std::string,int);
     void advance(int phase);
     int getVidas() const;
     void setVidas(int value);
@@ -45,6 +46,8 @@ public:
     void setLlaves(int value);
     std::string getNombre() const;
     void setNombre(const std::string &value);
+    int getPuntaje_maximo() const;
+    void setPuntaje_maximo(int value);
 };
 
 

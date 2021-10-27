@@ -50,7 +50,7 @@ void Inicio::startgame(){
        delete juego;
     }
     QWidget *parent = nullptr;
-    juego = new MainWindow(parent,vidas,level,score,nombre);
+    juego = new MainWindow(parent,vidas,level,score,nombre,puntaje_maximo);
     juego->show();
     setVisible(false);
     ui->invalido->setVisible(false);
@@ -91,7 +91,6 @@ void Inicio::loadgame(){
     ui->fondocon->setVisible(true);
     ui->invalido->setVisible(false);
 
-
 }
 
 void Inicio::loadclose(){
@@ -112,7 +111,7 @@ void Inicio::on_loadbutton_clicked()
     ofstream _datos;
     QString name=ui->incuenta->text();//,nivel,puntaje;
     string _nombre="../partidas/"+name.toStdString()+".txt",dato="";
-    int puntaje=0, nivel=0, vida=0, cont=0;
+    int puntaje=0, nivel=0, vida=0, cont=0, p_max=0;
     char* pEnd;
     //string _nivel, _puntaje;
     datos.open(_nombre);
@@ -139,6 +138,10 @@ void Inicio::on_loadbutton_clicked()
                 {
                     vida=strtod(dato.c_str(),&pEnd);
                 }
+                else if(cont==4)
+                {
+                    p_max=strtod(dato.c_str(),&pEnd);
+                }
                 dato="";
             }
             datos.close();
@@ -146,6 +149,7 @@ void Inicio::on_loadbutton_clicked()
         score = puntaje;
         level = nivel;
         nombre = _nombre;
+        puntaje_maximo=p_max;
         startgame();
         loadclose();
     }
@@ -183,8 +187,9 @@ void Inicio::on_newbutton_clicked()
         _datos<<0<<"\n";
         _datos<<"/\n";
         _datos<<3;
+        _datos<<"/\n";
+        _datos<<0;
         _datos.close();
-        //setNombre(_nombre);
         nombre=_nombre;
         startgame();
         loadclose();

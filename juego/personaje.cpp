@@ -101,12 +101,22 @@ void Personaje::setNombre(const std::string &value)
     nombre = value;
 }
 
+int Personaje::getPuntaje_maximo() const
+{
+    return puntaje_maximo;
+}
+
+void Personaje::setPuntaje_maximo(int value)
+{
+    puntaje_maximo = value;
+}
+
 Personaje::Personaje()
 {
     
 }
 
-Personaje::Personaje(float _px, float _py, float _vx, float _vy, float _ax,int _vidas,int _nivel, int _puntaje, std::string _nombre)
+Personaje::Personaje(float _px, float _py, float _vx, float _vy, float _ax,int _vidas,int _nivel, int _puntaje, std::string _nombre,int p_max)
 {
     px=_px;
     py=_py;
@@ -117,6 +127,7 @@ Personaje::Personaje(float _px, float _py, float _vx, float _vy, float _ax,int _
     nivel=_nivel;
     puntaje=_puntaje;
     nombre=_nombre;
+    puntaje_maximo=p_max;
     setPos(px,py);
 }
 
