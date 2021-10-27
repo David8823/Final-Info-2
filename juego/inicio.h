@@ -5,6 +5,12 @@
 #include "mainwindow.h"
 #include <QPushButton>
 
+#include <fstream>
+#include <QString>
+#include <string>
+#include <stdlib.h>
+#include <cstdlib>
+#include <QDebug>
 
 namespace Ui {
 class Inicio;
@@ -34,8 +40,7 @@ private:
     MainWindow *juego;
     QTimer *tiempo1;
     int vidas=3,level=1,score=0;
-
-
+    string nombre;
 };
 
 #endif // INICIO_H

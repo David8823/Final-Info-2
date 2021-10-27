@@ -1,13 +1,6 @@
 #include "inicio.h"
 #include "ui_inicio.h"
 
-#include <fstream>
-#include <QString>
-#include <string>
-#include <stdlib.h>
-#include <cstdlib>
-#include <QDebug>
-
 bool cont = 0;
 
 Inicio::Inicio(QWidget *parent) :
@@ -57,7 +50,7 @@ void Inicio::startgame(){
        delete juego;
     }
     QWidget *parent = nullptr;
-    juego = new MainWindow(parent,vidas,level,score);
+    juego = new MainWindow(parent,vidas,level,score,nombre);
     juego->show();
     setVisible(false);
     ui->invalido->setVisible(false);
@@ -117,8 +110,8 @@ void Inicio::on_loadbutton_clicked()
     ui->invalido->setVisible(false);
     ifstream datos;
     ofstream _datos;
-    QString nombre=ui->incuenta->text();//,nivel,puntaje;
-    string _nombre="../partidas/"+nombre.toStdString()+".txt",dato="";
+    QString name=ui->incuenta->text();//,nivel,puntaje;
+    string _nombre="../partidas/"+name.toStdString()+".txt",dato="";
     int puntaje=0, nivel=0, vida=0, cont=0;
     char* pEnd;
     //string _nivel, _puntaje;
@@ -152,6 +145,7 @@ void Inicio::on_loadbutton_clicked()
         vidas = vida;
         score = puntaje;
         level = nivel;
+        nombre = _nombre;
         startgame();
         loadclose();
     }
@@ -174,8 +168,8 @@ void Inicio::on_newbutton_clicked()
     ui->invalido->setVisible(false);
     ifstream datos;
     ofstream _datos;
-    QString nombre=ui->incuenta->text();
-    string _nombre="../partidas/"+nombre.toStdString()+".txt",dato="";
+    QString name=ui->incuenta->text();
+    string _nombre="../partidas/"+name.toStdString()+".txt",dato="";
     datos.open(_nombre);
     if(datos.is_open()){
         ui->incuenta->clear();
@@ -189,7 +183,9 @@ void Inicio::on_newbutton_clicked()
         _datos<<0<<"\n";
         _datos<<"/\n";
         _datos<<3;
-        _datos.open(_nombre);
+        _datos.close();
+        //setNombre(_nombre);
+        nombre=_nombre;
         startgame();
         loadclose();
     }

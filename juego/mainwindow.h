@@ -29,7 +29,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
-    MainWindow(QWidget *parent,int,int,int);
+    MainWindow(QWidget *parent,int,int,int,string);
     ~MainWindow();
 
     void onUpdate();
@@ -38,7 +38,7 @@ public:
     void onFire();
     void obtener_nivel(int);
     void pause();
-    void crearmundo(int,int,int);
+    void crearmundo(int,int,int,string);
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene,*scene2;

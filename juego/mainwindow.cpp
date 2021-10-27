@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow){}
 
 
-MainWindow::MainWindow(QWidget *parent,int vidas,int level ,int score)
+MainWindow::MainWindow(QWidget *parent,int vidas,int level ,int score, string name)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
@@ -31,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent,int vidas,int level ,int score)
     connect(ui->pause,&QPushButton::clicked,this,&MainWindow::pause);
 
 
-    crearmundo(vidas,level,score);
+    crearmundo(vidas,level,score,name);
 
 
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -87,7 +87,16 @@ void MainWindow::onUpdate(){
                     if( (pj1->getNivel()==1 && pj1->getLlaves()==2) || (pj1->getNivel()==2 && pj1->getLlaves()==3) || (pj1->getNivel()==3 && pj1->getLlaves()==5) ){
                         pj1->setNivel(pj1->getNivel()+1);
                         conti=1;
-                        crearmundo(pj1->getVidas(),pj1->getNivel(),pj1->getPuntaje());
+                        ofstream archivo;
+                        archivo.open(pj1->getNombre());
+                        archivo<<"/\n";
+                        archivo<<pj1->getNivel()<<"\n";
+                        archivo<<"/\n";
+                        archivo<<pj1->getPuntaje()<<"\n";
+                        archivo<<"/\n";
+                        archivo<<pj1->getVidas();
+                        archivo.close();
+                        crearmundo(pj1->getVidas(),pj1->getNivel(),pj1->getPuntaje(),pj1->getNombre());
                     }
                 }
 
@@ -446,7 +455,7 @@ void MainWindow::pause(){
 
 }
 
-void MainWindow::crearmundo(int vidas,int level,int score){
+void MainWindow::crearmundo(int vidas,int level,int score,string name){
 
     if(conti==1){scene->destroyed();}
 
@@ -467,7 +476,7 @@ void MainWindow::crearmundo(int vidas,int level,int score){
             if(nivel[i][j]!=0){
                if(nivel[i][j]==9){
 
-                    pj1 = new Personaje(x,y,0,0,0,vidas,level,score);
+                    pj1 = new Personaje(x,y,0,0,0,vidas,level,score,name);
                     //pj2 = new Personaje(x+40,y,0,0,0,3);
                     scene->addItem(pj1);
                     //scene->addItem(pj2);

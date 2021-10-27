@@ -91,12 +91,22 @@ void Personaje::setLlaves(int value)
     llaves = value;
 }
 
-Personaje::Personaje()
+std::string Personaje::getNombre() const
 {
-
+    return nombre;
 }
 
-Personaje::Personaje(float _px, float _py, float _vx, float _vy, float _ax,int _vidas,int _nivel, int _puntaje)
+void Personaje::setNombre(const std::string &value)
+{
+    nombre = value;
+}
+
+Personaje::Personaje()
+{
+    
+}
+
+Personaje::Personaje(float _px, float _py, float _vx, float _vy, float _ax,int _vidas,int _nivel, int _puntaje, std::string _nombre)
 {
     px=_px;
     py=_py;
@@ -106,6 +116,7 @@ Personaje::Personaje(float _px, float _py, float _vx, float _vy, float _ax,int _
     vidas=_vidas;
     nivel=_nivel;
     puntaje=_puntaje;
+    nombre=_nombre;
     setPos(px,py);
 }
 
