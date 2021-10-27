@@ -16,16 +16,11 @@ MainWindow::MainWindow(QWidget *parent,int vidas,int level ,int score)
 {
     ui->setupUi(this);
 
-
-
-
     //QImage fondo("../imagenes/juego final/background4b.png");
     //fondo.scaled(100,100);
     //ui->graphicsView->setBackgroundBrush(fondo);
 
     ui->graphicsView->scale(0.5,0.5);
-
-
 
     tiempo = new QTimer();
     tiempo->start(5);
@@ -306,11 +301,6 @@ void MainWindow::onUpdate(){
 
 }
 
-
-
-
-
-
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
 
@@ -487,9 +477,6 @@ void MainWindow::crearmundo(int vidas,int level,int score){
                     ui->graphicsView->setScene(scene);
                     inix = x;
                     iniy = y;
-
-
-
 
                }
                else if(nivel[i][j]==8){
