@@ -19,14 +19,16 @@ MainWindow::MainWindow(QWidget *parent,int vidas,int level ,int score)
 
 
 
-    QImage fondo("../imagenes/juego final/background4b.png");
-    fondo.scaled(100,100);
-    ui->graphicsView->setBackgroundBrush(fondo);
+    //QImage fondo("../imagenes/juego final/background4b.png");
+    //fondo.scaled(100,100);
+    //ui->graphicsView->setBackgroundBrush(fondo);
+
+    ui->graphicsView->scale(0.5,0.5);
 
 
 
     tiempo = new QTimer();
-    tiempo->start(10);
+    tiempo->start(5);
 
     connect(tiempo, &QTimer::timeout, this, &MainWindow::onUpdate);
     connect(tiempo, &QTimer::timeout, this, &MainWindow::onFire);
@@ -51,9 +53,12 @@ MainWindow::~MainWindow()
 void MainWindow::onUpdate(){
     scene->advance();
     ui->graphicsView->ensureVisible(pj1);
-    ui->graphicsView->centerOn(pj1->getPx(),pj1->getPy());
-    scene->setFocusItem(pj1);
-
+    //ui->graphicsView->centerOn(pj1->getPx(),pj1->getPy());
+    //scene->setFocusItem(pj1);
+    if(pj1->getPx()==800){
+        scene->setSceneRect(800,0,0,0);
+        ui->graphicsView->setScene(scene);
+    }
 
 //========================= colosiones Jugador 1============================================================================================
 
@@ -112,7 +117,7 @@ void MainWindow::onUpdate(){
                         pj1->setPx(pj1->getPx()-3);
                     }
 
-                    else if( (pj1->getPy() > muros2->getPy()) && (pj1->getPy() < muros2->getPy()+40) && (pj1->getPy()+18 > muros2->getPy()) && pj1->getVy() > 0 ){
+                    else if( (pj1->getPy() > muros2->getPy()) && (pj1->getPy() < muros2->getPy()+40) && (pj1->getPy()+19 > muros2->getPy()) && pj1->getVy() > 0 ){
                          qDebug()<<"Paso tec";
                         pj1->setPy(pj1->getPy()+5);
                         pj1->setVx(0);
@@ -122,8 +127,8 @@ void MainWindow::onUpdate(){
                     else
                     {
                         if(muros2->getTipo()==5 || muros2->getTipo()==6){
-                            if(muros2->getCont()==10){
-                            pj1->setVx(i+muros2->getVx());}
+                            //if(muros2->getCont()==10){
+                            pj1->setVx(i+muros2->getVx());//}
 
                         }
 
@@ -313,9 +318,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
                 //qDebug()<<"Presione un tecla: "<<event->key();
                 if(event->key() == Qt::Key_A){
-                    pj1->setVx(-20);
+                    pj1->setVx(-30);
                 }else if(event->key() == Qt::Key_D){
-                    pj1->setVx(20);
+                    pj1->setVx(30);
                 }else if(event->key() == Qt::Key_W){
                    QList<QGraphicsItem *> colisiones = scene->collidingItems(pj1);
                     if(!colisiones.isEmpty()){

@@ -87,7 +87,7 @@ void objetos::advance(int phase)
 {
     if(tipo==5)
     {
-        if(cont==150){
+        if(cont==500){
             vx=-vx;
             cont=0;
         }
