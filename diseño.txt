@@ -11,7 +11,3 @@ numeros de los objetos asignados en las matrices de los niveles:
 9- personaje
 a(49)- pendulo
 b(50)- monedas
-c(51)-
-d(52)-
-e(53)-
-f(54)-

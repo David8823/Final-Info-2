@@ -1,15 +1,6 @@
  #include "proyectiles.h"
 
 
-int proyectiles::getTime() const
-{
-    return time;
-}
-
-void proyectiles::setTime(int value)
-{
-    time = value;
-}
 
 int proyectiles::getTipo() const
 {
@@ -46,8 +37,7 @@ void proyectiles::advance(int phase)
     px = pxini + vx*dt;
     py = pyini + vy*dt + 0.5*ay*dt*dt;
 
-    dt=dt+DT/2;
-    time=time-20;
+    dt=dt+DTP/2;
     setPos(px,py);
 }
 

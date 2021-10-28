@@ -87,7 +87,7 @@ void objetos::advance(int phase)
 {
     if(tipo==5)
     {
-        if(cont==500){
+        if(cont==150){
             vx=-vx;
             cont=0;
         }
@@ -101,7 +101,7 @@ void objetos::advance(int phase)
 
     else if(tipo==49){
 
-        if(cont==1){
+        if(cont==10){
             i = i + DT;
             float theta0 = theta * cos(w*i);
             px =pxini + 90 * sin(theta0*rad);

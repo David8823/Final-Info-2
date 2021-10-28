@@ -5,7 +5,7 @@
 #include "proyectiles.h"
 #include <math.h>
 using namespace std;
-#define DT 0.05
+#define DT 0.08
 #define G 10
 #define pi 3.1416
 #define rad (2*pi/360)

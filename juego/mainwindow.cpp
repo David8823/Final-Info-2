@@ -3,7 +3,7 @@
 int i=0,f=0;
 int inix,iniy;
 int v=0,a,dis = 0,tim=0;
-bool multi;
+bool multi=0;
 bool ps = 0;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,9 +16,9 @@ MainWindow::MainWindow(QWidget *parent,int vidas,int level ,int score, string na
 {
     ui->setupUi(this);
 
-    //QImage fondo("../imagenes/juego final/background4b.png");
-    //fondo.scaled(100,100);
-    //ui->graphicsView->setBackgroundBrush(fondo);
+    QImage fondo("../imagenes/juego final/background4b.png");
+    fondo.scaled(100,100);
+    ui->graphicsView->setBackgroundBrush(fondo);
 
     ui->graphicsView->scale(0.5,0.5);
 
@@ -47,7 +47,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::onUpdate(){
     scene->advance();
-    ui->graphicsView->ensureVisible(pj1);
+    //ui->graphicsView->ensureVisible(pj1);
     //ui->graphicsView->centerOn(pj1->getPx(),pj1->getPy());
     //scene->setFocusItem(pj1);
     if(pj1->getPx()==800){
@@ -81,7 +81,7 @@ void MainWindow::onUpdate(){
             {
                 //qDebug()<<"Lista"<<colisiones.size();
                 objetos *muros2 = dynamic_cast<objetos *>(colisiones[i]);
-                if(muros2->getTipo()==3 && pj1->getVidas()>=0)
+                if( (muros2->getTipo()==3 || muros2->getTipo()==49) && pj1->getVidas()>=0)
                 {
                     pj1->setPx(inix);
                     pj1->setPy(iniy);
@@ -102,7 +102,12 @@ void MainWindow::onUpdate(){
                     if( (pj1->getNivel()==1 && pj1->getLlaves()==2) || (pj1->getNivel()==2 && pj1->getLlaves()==3) || (pj1->getNivel()==3 && pj1->getLlaves()==5) ){
                         qDebug()<<"pasando de nivel";
                         pj1->setNivel(pj1->getNivel()+1);
-                        pj1->setPuntaje(pj1->getPuntaje()+2000-(tim*2));
+                        pj1->setPuntaje(pj1->getPuntaje()+2000-(tim*5)+(100*pj1->getVidas()));
+                        cannon.clear();
+                        botin.clear();
+                        scene->removeItem(pj1);
+                        scene->removeItem(pj2);
+                        multi=0;
 
                         ofstream archivo;
                         archivo.open(pj1->getNombre());
@@ -181,40 +186,117 @@ void MainWindow::onUpdate(){
 
 //======================== colisones Jugador 2=============================================================================================
 
-    /*QList<QGraphicsItem *> colisionesp2 = scene->collidingItems(pj2);
-    if(!colisionesp2.isEmpty()){
-        objetos *item = dynamic_cast<objetos *>(colisionesp2[0]);
-        if(item)
-            if(item->getTipo()==4){
-            item->setTipo(3);}
-        objetos *muros = dynamic_cast<objetos *>(colisionesp2[0]);
+    if(multi==1){
+
+    QList<QGraphicsItem *> colisiones2 = scene->collidingItems(pj2); //bloques
+    if(!colisiones2.isEmpty())
+    {
+        objetos *muros = dynamic_cast<objetos *>(colisiones[0]);
         if(muros){
-            if(muros->getTipo()==4){
-                muros->setTipo(3);
-                pj2->setVx(0);
-                pj2->setVy(0);}
-            else if(muros->getTipo()==3 || muros->getTipo()==0){
-                pj2->setPx(inix);
-                pj2->setPy(iniy);
-                pj2->setVidas(pj2->getVidas()-1);
-                if(pj2->getVidas()==0){scene->removeItem(pj2);}
-            }
-            else if(muros->getTipo()==1 || muros->getTipo()==2){
-                pj2->setVy(-0.1*pj2->getVy());
-                pj2->setAy(-0.1*pj2->getAy());
-            }
-        }
-        else{
-            Personaje *personajes = dynamic_cast<Personaje *>(colisionesp2[0]);
-            if(personajes){
-                pj2->setVy(-0.1*pj2->getVy());
-                pj2->setAy(-0.1*pj2->getAy());
+            for(int i=0;i<colisiones2.size();i++)
+            {
+                //qDebug()<<"Lista"<<colisiones2.size();
+                objetos *muros2 = dynamic_cast<objetos *>(colisiones2[i]);
+                if( (muros2->getTipo()==3 || muros2->getTipo()==49) && pj1->getVidas()>=0)
+                {
+                    pj2->setPx(inix);
+                    pj2->setPy(iniy);
+                    pj1->setVidas(pj1->getVidas()-1);
+                    qDebug()<<"Pinchos"<<pj1->getVidas();
+                    //qDebug()<<"Pinchos"<<pj1->getPx()<<"vs"<<muros->getPx()<<"  "<<pj1->getPy()<<"vs"<<muros->getPy();
+                if(pj1->getVidas()==0){scene->removeItem(pj1);scene->removeItem(pj2);}
+                break;
+                }
+
+                else if(muros2->getTipo()==2){
+                    pj2->setAy(0);
+                    pj2->setVx(0);
+
+                }
+
+                /*else if(muros2->getTipo()==7){
+                    if( (pj1->getNivel()==1 && pj1->getLlaves()==2) || (pj1->getNivel()==2 && pj1->getLlaves()==3) || (pj1->getNivel()==3 && pj1->getLlaves()==5) ){
+                        qDebug()<<"pasando de nivel";
+                        pj1->setNivel(pj1->getNivel()+1);
+                        pj1->setPuntaje(pj1->getPuntaje()+2000-(tim*5)+(100*pj1->getVidas()));
+                        cannon.clear();
+                        botin.clear();
+
+
+
+                        ofstream archivo;
+                        archivo.open(pj1->getNombre());
+                        archivo<<"/\n";
+                        archivo<<pj1->getNivel()<<"\n";
+                        archivo<<"/\n";
+                        archivo<<pj1->getPuntaje()<<"\n";
+                        archivo<<"/\n";
+                        archivo<<pj1->getVidas();
+                        archivo.close();
+                        crearmundo(pj1->getVidas(),pj1->getNivel(),pj1->getPuntaje(),pj1->getNombre(),pj1->getPuntaje_maximo());
+                    }
+                }*/
+
+                else if(muros2->getTipo()==1 || muros2->getTipo()==5 || muros2->getTipo()==6)
+                {
+                                                    //izquierda
+                    if( (pj2->getPx()+19>muros2->getPx()+40)&&(pj2->getPx() < (muros2->getPx()+40)) && (pj2->getPy() > muros2->getPy()) )
+                    {
+                        //qDebug()<<"Paso iz";
+                        pj2->setVy(-0.1*pj2->getVy());
+                        pj2->setAy(-0.1*pj2->getAy());
+                        pj2->setVx(0);
+                        pj2->setPx(pj2->getPx()+3);
+                    }
+                                                    //derecha
+                    else if( (pj2->getPx()+19>muros2->getPx())&&(pj2->getPx() < muros2->getPx()) && (pj2->getPy() > muros2->getPy()) )
+                    {
+                        //qDebug()<<"Paso der";
+                        pj2->setVy(-0.1*pj2->getVy());
+                        pj2->setAy(-0.1*pj2->getAy());
+                        pj2->setVx(0*pj2->getVx());
+                        pj2->setPx(pj2->getPx()-3);
+                    }
+
+                    else if( (pj2->getPy() > muros2->getPy()) && (pj2->getPy() < muros2->getPy()+40) && (pj2->getPy()+19 > muros2->getPy()) && pj2->getVy() > 0 ){
+                        //qDebug()<<"Paso tec";
+                        pj2->setPy(pj2->getPy()+5);
+                        pj2->setVx(0);
+
+
+                    }
+                    else
+                    {
+                        if(muros2->getTipo()==5 || muros2->getTipo()==6){
+                            //if(muros2->getCont()==10){
+                            pj2->setVx(i+muros2->getVx());//}
+
+                        }
+
+
+                        if(muros2->getTipo()==6){
+                            if(f==1){pj2->setVy(-20);}
+
+                            else{pj2->setVy(muros2->getVy()-4);}
+                        }
+
+
+                        else{
+                            pj2->setVy(-0.1*pj2->getVy());
+                            pj2->setAy(-0.1*pj2->getAy());
+                        }
+
+
+                    }
+                }
             }
         }
     }
     else{
         pj2->setAy(10);
-    }*/
+
+    }
+    }
 
 //=====================================================================================================================
 
@@ -249,13 +331,13 @@ void MainWindow::onUpdate(){
                   scene->removeItem(bu);
                   personajes->setPx(inix);
                   personajes->setPy(iniy);
-                  personajes->setVidas(personajes->getVidas()-1);
+                  pj1->setVidas(pj1->getVidas()-1);
 
                   for(list<proyectiles *>::iterator non=ammo.begin();non!=ammo.end();non++){
                       if(bu==*non ){ammo.remove(*non);break;}
                   }
 
-                  if(personajes->getVidas()==0){scene->removeItem(personajes);}
+                  if(pj1->getVidas()==0){scene->removeItem(pj1);scene->removeItem(pj1);}
 
 
               }
@@ -297,19 +379,19 @@ void MainWindow::onUpdate(){
                   scene->removeItem(bot);
                   if(bot->getTipo()==4){
                     pj1->setLlaves(pj1->getLlaves()+1);
-                    pj1->setPuntaje(pj1->getPuntaje()+1000);
+                    pj1->setPuntaje(pj1->getPuntaje()+500);
                     qDebug()<<"numero de llaves: "<<pj1->getLlaves();
                   }
                   else if(bot->getTipo()==50){
                       qDebug()<<"puntaje +100";
-                      pj1->setPuntaje(pj1->getPuntaje()+300);
+                      pj1->setPuntaje(pj1->getPuntaje()+100);
                   }
 
                   for(list<Coleccionables *>::iterator non=botin.begin();non!=botin.end();non++){
                       if(bot==*non ){botin.remove(*non);break;}
                   }
 
-                  if(personajes->getVidas()==0){scene->removeItem(personajes);}
+                  if(pj1->getVidas()==0){scene->removeItem(pj1);}
 
 
               }
@@ -334,11 +416,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 }else if(event->key() == Qt::Key_D){
                     pj1->setVx(30);
                 }else if(event->key() == Qt::Key_W){
-                   QList<QGraphicsItem *> colisiones = scene->collidingItems(pj1);
-                    if(!colisiones.isEmpty()){
+                   QList<QGraphicsItem *> colisionesp = scene->collidingItems(pj1);
+                    if(!colisionesp.isEmpty()){
 
                         f=1;
-                        pj1->setVy(-40);}
+                        pj1->setVy(-40);
+                    }
                  }
 //=====================================================================================================================
 
@@ -346,17 +429,19 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
                 //qDebug()<<"Presione un tecla: "<<event->key();
                 if(event->key() == Qt::Key_J){
-                    pj2->setVx(-20);
+                    pj2->setVx(-30);
                 }else if(event->key() == Qt::Key_L){
-                    pj2->setVx(20);
+                    pj2->setVx(30);
                 }else if(event->key() == Qt::Key_I){
-                   QList<QGraphicsItem *> colisiones = scene->collidingItems(pj2);
-                    if(!colisiones.isEmpty()){
-                        objetos *muros = dynamic_cast<objetos *>(colisiones[0]);
+                   QList<QGraphicsItem *> colisiones2p = scene->collidingItems(pj2);
+                    if(!colisiones2p.isEmpty()){
+                        //objetos *muros = dynamic_cast<objetos *>(colisiones[0]);
 
-                        if(muros->getTipo()==2){pj2->setVy(-10);}
+                        //if(muros->getTipo()==2){pj2->setVy(-10);}
 
-                        else{pj2->setVy(-40);}
+                        //else{pj2->setVy(-40);}
+                        f=1;
+                        pj2->setVy(-40);
                     }
                 }
 
@@ -364,6 +449,16 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 //=====================================================================================================================
                 if(event->key() == Qt::Key_P){
                    pause();
+
+                }
+
+                if(event->key() == Qt::Key_T){
+
+                    if(multi==0){
+                        pj2 = new Personaje(inix+40,iniy,0,0,0,0,0,0,"0",0);
+                        scene->addItem(pj2);
+                        multi=1;
+                    }
 
                 }
 }
@@ -389,10 +484,12 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event){
         //qDebug()<<"Presione un tecla: "<<event->key();
         if(event->key() == Qt::Key_J){
             pj2->setVx(0);
+            i=0;
         }else if(event->key() == Qt::Key_L){
             pj2->setVx(0);
+        }else if(event->key() == Qt::Key_I){
+            f=0;
         }
-
 //=====================================================================================================================
 
 }
@@ -482,17 +579,17 @@ void MainWindow::crearmundo(int vidas,int level,int score,string name,int p_max)
 
     int x , y = 0;
     obtener_nivel(level);
-    for(int i=0; i<20 ; i++){ //alto
+    for(int i=0; i<30 ; i++){ //alto
         y=i*40;
-        for(int j=0; j<60 ; j++){ //ancho
+        for(int j=0; j<40 ; j++){ //ancho
             x=j*40;
 
             if(nivel[i][j]!=0){
                if(nivel[i][j]==9){
 
                     pj1 = new Personaje(x,y,0,0,0,vidas,level,score,name,p_max);
-                    //pj2 = new Personaje(x+40,y,0,0,0,3);
                     scene->addItem(pj1);
+                    //pj2 = new Personaje(x+40,y,0,0,0,3);
                     //scene->addItem(pj2);
                     scene->setSceneRect(pj1->getPx(),pj1->getPy(),0,0);
                     scene->foregroundBrush();

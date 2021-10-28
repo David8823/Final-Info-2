@@ -2,14 +2,14 @@
 #define PROYECTILES_H
 #include <QGraphicsItem>
 #include <QPainter>
-#define DT 0.05
+#define DTP 0.05
 
 class proyectiles : public QGraphicsItem
 {
 private:
     float px,py,pxini,pyini,vx,vy,vyini,dt;
     float ay = 10;
-    int tipo,time=400;
+    int tipo;
 
 
 public:
