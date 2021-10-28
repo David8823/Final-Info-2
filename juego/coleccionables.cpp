@@ -27,8 +27,9 @@ QRectF Coleccionables::boundingRect() const
 void Coleccionables::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QRect j(0,0,20,20);
-    QImage llaved("../imagenes/juego final/llaved.png");
-    QImage moneda("../imagenes/juego final/moneda.png");
+    QImage llaved("../juego final/llaved.png");
+    QImage moneda("../juego final/moneda.png");
+    QImage vida("../juego final/rojo.png");
 
 
     if(tipo==4){
@@ -36,5 +37,8 @@ void Coleccionables::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     }
     if(tipo==50){
         painter->drawImage(j,moneda);
+    }
+    if(tipo==51){
+        painter->drawImage(j,vida);
     }
 }

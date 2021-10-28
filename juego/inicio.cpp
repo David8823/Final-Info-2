@@ -15,7 +15,12 @@ Inicio::Inicio(QWidget *parent) :
     loadclose();
 
 
-    //ui->label->setStyleSheet("background-image:");
+    QPixmap fon("../juego final/background4a.png");
+    ui->fondocon_2->setPixmap(fon);
+
+    QPixmap fon2("../juego final/fondoini.jpg");
+    ui->fondocon->setPixmap(fon2);
+
 
     connect(tiempo1, &QTimer::timeout, this, &Inicio::abrir);
 

@@ -39,6 +39,9 @@ public:
     void obtener_nivel(int);
     void pause();
     void crearmundo(int,int,int,string,int);
+    void gameover();
+    void reinicio();
+    void gamefinish();
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene,*scene2;

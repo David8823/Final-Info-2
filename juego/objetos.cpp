@@ -140,9 +140,9 @@ void objetos::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     QImage puas("../juego final/puas.png");
     QImage bloque("../juego final/bloque.png");
     QImage arma("../juego final/acofre.png");
-    QImage doorc("../imagenes/juego final/doorc.png");
-    QImage pend("../imagenes/juego final/pendulo.png");
-    QImage stair("../imagenes/juego final/stair.png");
+    QImage doorc("../juego final/doorc.png");
+    QImage pend("../juego final/pendulo.png");
+    QImage stair("../juego final/stair.png");
 
 
     if (tipo == 8){

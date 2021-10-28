@@ -37,3 +37,22 @@ build-Juego_Final-Desktop_Qt_5_12_2_MinGW_64_bit-Debug/debug/moc_mainwindow.o
 build-Juego_Final-Desktop_Qt_5_12_2_MinGW_64_bit-Debug/debug/moc_inicio.o
 build-Juego_Final-Desktop_Qt_5_12_2_MinGW_64_bit-Debug/debug/Juego_Final.exe
 build-Juego_Final-Desktop_Qt_5_12_2_MinGW_64_bit-Debug/debug/inicio.o
+build juego_final/.qmake.stash
+build juego_final/debug/coleccionables.o
+build juego_final/debug/inicio.o
+build juego_final/debug/Juego_Final.exe
+build juego_final/debug/main.o
+build juego_final/debug/mainwindow.o
+build juego_final/debug/moc_inicio.cpp
+build juego_final/debug/moc_inicio.o
+build juego_final/debug/moc_mainwindow.cpp
+build juego_final/debug/moc_mainwindow.o
+build juego_final/debug/moc_predefs.h
+build juego_final/debug/objetos.o
+build juego_final/debug/personaje.o
+build juego_final/debug/proyectiles.o
+build juego_final/Makefile
+build juego_final/Makefile.Debug
+build juego_final/Makefile.Release
+build juego_final/ui_inicio.h
+build juego_final/ui_mainwindow.h

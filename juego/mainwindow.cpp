@@ -16,9 +16,11 @@ MainWindow::MainWindow(QWidget *parent,int vidas,int level ,int score, string na
 {
     ui->setupUi(this);
 
-    QImage fondo("../imagenes/juego final/background4b.png");
-    fondo.scaled(100,100);
+    QPixmap fondo("../juego final/background4b.png");
+    fondo.scaled(500,500);
     ui->graphicsView->setBackgroundBrush(fondo);
+    scene = new QGraphicsScene(this);
+    scene->setSceneRect(0,0,0,0);
 
     ui->graphicsView->scale(0.5,0.5);
 
@@ -29,6 +31,8 @@ MainWindow::MainWindow(QWidget *parent,int vidas,int level ,int score, string na
     connect(tiempo, &QTimer::timeout, this, &MainWindow::onFire);
     connect(ui->Back_Menu,&QPushButton::clicked,this,&MainWindow::Menu);
     connect(ui->pause,&QPushButton::clicked,this,&MainWindow::pause);
+    connect(ui->reset,&QPushButton::clicked,this,&MainWindow::reinicio);
+
 
 
     crearmundo(vidas,level,score,name,p_max);
@@ -89,7 +93,7 @@ void MainWindow::onUpdate(){
                     pj1->setVidas(pj1->getVidas()-1);
                     qDebug()<<"Pinchos"<<pj1->getVidas();
                     //qDebug()<<"Pinchos"<<pj1->getPx()<<"vs"<<muros->getPx()<<"  "<<pj1->getPy()<<"vs"<<muros->getPy();
-                if(pj1->getVidas()==0){scene->removeItem(pj1);}
+                if(pj1->getVidas()==0){scene->removeItem(pj1);scene->removeItem(pj2);gameover();}
                 break;
                 }
 
@@ -102,27 +106,37 @@ void MainWindow::onUpdate(){
                 else if(muros3->getTipo()==7){
                     if( (pj1->getNivel()==1 && pj1->getLlaves()==2) || (pj1->getNivel()==2 && pj1->getLlaves()==3) || (pj1->getNivel()==3 && pj1->getLlaves()==5) )
                     {
-                        qDebug()<<"pasando de nivel";
-                        pj1->setNivel(pj1->getNivel()+1);
-                        pj1->setPuntaje(pj1->getPuntaje()+2000-(tim*5)+(100*pj1->getVidas()));
-                        cannon.clear();
-                        botin.clear();
-                        scene->removeItem(pj1);
-                        scene->removeItem(pj2);
-                        multi=0;
+                       if(pj1->getNivel()==3){
 
-                        ofstream archivo;
-                        archivo.open(pj1->getNombre());
-                        archivo<<"/\n";
-                        archivo<<pj1->getNivel()<<"\n";
-                        archivo<<"/\n";
-                        archivo<<pj1->getPuntaje()<<"\n";
-                        archivo<<"/\n";
-                        archivo<<pj1->getVidas()<<"\n";
-                        archivo<<"/\n";
-                        archivo<<pj1->getPuntaje_maximo();
-                        archivo.close();
-                        crearmundo(pj1->getVidas(),pj1->getNivel(),pj1->getPuntaje(),pj1->getNombre(),pj1->getPuntaje_maximo());
+                            pj1->setPuntaje(pj1->getPuntaje()+2000-(tim*5)+(100*pj1->getVidas()));
+                            pj1->setPuntaje_maximo(pj1->getPuntaje());
+                            gamefinish();
+
+                       }
+
+                        else{
+                            qDebug()<<"pasando de nivel";
+                            pj1->setNivel(pj1->getNivel()+1);
+                            pj1->setPuntaje(pj1->getPuntaje()+2000-(tim*5)+(100*pj1->getVidas()));
+                            cannon.clear();
+                            botin.clear();
+                            scene->removeItem(pj1);
+                            scene->removeItem(pj2);
+                            multi=0;
+
+                            ofstream archivo;
+                            archivo.open(pj1->getNombre());
+                            archivo<<"/\n";
+                            archivo<<pj1->getNivel()<<"\n";
+                            archivo<<"/\n";
+                            archivo<<pj1->getPuntaje()<<"\n";
+                            archivo<<"/\n";
+                            archivo<<pj1->getVidas()<<"\n";
+                            archivo<<"/\n";
+                            archivo<<pj1->getPuntaje_maximo();
+                            archivo.close();
+                            crearmundo(pj1->getVidas(),pj1->getNivel(),pj1->getPuntaje(),pj1->getNombre(),pj1->getPuntaje_maximo());
+                        }
                     }
                 }
 
@@ -207,7 +221,7 @@ void MainWindow::onUpdate(){
                     pj1->setVidas(pj1->getVidas()-1);
                     qDebug()<<"Pinchos"<<pj1->getVidas();
                     //qDebug()<<"Pinchos"<<pj1->getPx()<<"vs"<<muros->getPx()<<"  "<<pj1->getPy()<<"vs"<<muros->getPy();
-                    if(pj1->getVidas()==0){scene->removeItem(pj1);scene->removeItem(pj2);}
+                    if(pj1->getVidas()==0){scene->removeItem(pj1);scene->removeItem(pj2);gameover();}
                     break;
                 }
 
@@ -338,7 +352,7 @@ void MainWindow::onUpdate(){
                       if(bu==*non ){ammo.remove(*non);break;}
                   }
 
-                  if(pj1->getVidas()==0){scene->removeItem(pj1);scene->removeItem(pj1);}
+                  if(pj1->getVidas()==0){scene->removeItem(pj1);scene->removeItem(pj2);gameover();}
 
 
               }
@@ -389,6 +403,13 @@ void MainWindow::onUpdate(){
                       qDebug()<<"puntaje +100";
                       pj1->setPuntaje(pj1->getPuntaje()+100);
                   }
+
+                  else if(bot->getTipo()==51)
+                  {
+                      qDebug()<<"vida +1";
+                      pj1->setVidas(pj1->getVidas()+1);
+                  }
+
 
                   for(list<Coleccionables *>::iterator non=botin.begin();non!=botin.end();non++)
                   {
@@ -496,7 +517,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event){
 
 void MainWindow::onFire(){
     objetos *p;
-    if(dis==250){
+    if(dis==150){
 
         for(list<objetos *>::iterator n=cannon.begin();n!=cannon.end();n++){
             p= *n;
@@ -548,18 +569,59 @@ void MainWindow:: Menu(){
 
 }
 
+void MainWindow::gameover(){
+    tiempo->stop();
+    pj1->setVidas(3);
+    pj1->setPuntaje(0);
+    pj1->setNivel(1);
+
+
+    //actualizar archivo de texto
+
+
+    ui->label_4->setVisible(true);
+    ui->label_3->setVisible(true);
+    ui->reset->setVisible(true);
+    ui->Back_Menu->setVisible(true);
+}
+
+void MainWindow::gamefinish(){
+    tiempo->stop();
+    pj1->setVidas(3);
+    pj1->setPuntaje(0);
+    pj1->setNivel(1);
+
+
+    //actualizar archivo de texto (incluir puntaje maximo)
+
+
+    ui->label_5->setVisible(true);
+    ui->label_3->setVisible(true);
+    ui->reset->setVisible(true);
+    ui->Back_Menu->setVisible(true);
+}
+
+void MainWindow::reinicio(){
+
+    crearmundo(pj1->getVidas(),pj1->getNivel(),pj1->getPuntaje(),pj1->getNombre(),pj1->getPuntaje_maximo());
+
+
+}
+
 void MainWindow::pause(){
 
     if(ps==0){
         tiempo->stop();ps=1;
         ui->label->setVisible(true);
         ui->Back_Menu->setVisible(true);
+        ui->label_3->setVisible(true);
     }
 
     else{
         tiempo->start(10);ps=0;
         ui->label->setVisible(false);
         ui->Back_Menu->setVisible(false);
+        ui->label_3->setVisible(false);
     }
 
 
@@ -569,11 +631,17 @@ void MainWindow::crearmundo(int vidas,int level,int score,string name,int p_max)
 
     if(conti==1){scene->destroyed();}
     tim=0;
+    tiempo->start(5);
     scene = new QGraphicsScene(this);
-    scene->setSceneRect(0,0,0,0);
-    ui->graphicsView->setScene(scene);
     ui->label->setVisible(false);
     ui->Back_Menu->setVisible(false);
+    ui->label_3->setVisible(false);
+    ui->label_4->setVisible(false);
+    ui->reset->setVisible(false);
+    ui->label_5->setVisible(false);
+    muros.clear();
+    cannon.clear();
+    botin.clear();
 
     qDebug()<<"nivel actual: "<<level;
 
@@ -605,7 +673,7 @@ void MainWindow::crearmundo(int vidas,int level,int score,string name,int p_max)
 
                }
 
-               else if(nivel[i][j]==4){
+               else if(nivel[i][j]==4 || nivel[i][j]==51){
                    botin.push_back(new Coleccionables(x,y,nivel[i][j]));
                    scene->addItem(botin.back());
 
@@ -628,6 +696,7 @@ void MainWindow::crearmundo(int vidas,int level,int score,string name,int p_max)
     }
     scene->setSceneRect(pj1->getPx(),pj1->getPy(),0,0);
     ui->graphicsView->setScene(scene);
+    ui->graphicsView->ensureVisible(muros.back());
 
 
 }
