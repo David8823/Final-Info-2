@@ -27,6 +27,12 @@ MainWindow::MainWindow(QWidget *parent,int vidas,int level ,int score, string na
     tiempo = new QTimer();
     tiempo->start(5);
 
+    player = new QMediaPlayer;
+    // ...
+    player->setMedia(QUrl::fromLocalFile("../juego final/mario.mp3"));
+    player->setVolume(100);
+    player->play();
+
     connect(tiempo, &QTimer::timeout, this, &MainWindow::onUpdate);
     connect(tiempo, &QTimer::timeout, this, &MainWindow::onFire);
     connect(ui->Back_Menu,&QPushButton::clicked,this,&MainWindow::Menu);
@@ -45,6 +51,7 @@ MainWindow::MainWindow(QWidget *parent,int vidas,int level ,int score, string na
 
 MainWindow::~MainWindow()
 {
+
     delete ui;
 }
 
@@ -86,6 +93,9 @@ void MainWindow::onUpdate(){
             {
                 //qDebug()<<"Lista"<<colisiones.size();
                 objetos *muros3 = dynamic_cast<objetos *>(colisiones[i]);
+                if(!muros3){
+                    continue;
+                }
                 if( (muros3->getTipo()==3 || muros3->getTipo()==49) && pj1->getVidas()>=0)
                 {
                     pj1->setPx(inix);
@@ -226,6 +236,9 @@ void MainWindow::onUpdate(){
             {
                 //qDebug()<<"Lista"<<colisiones2.size();
                 objetos *muros2 = dynamic_cast<objetos *>(colisiones2[i]);
+                if(!muros2){
+                                    continue;
+                                }
                 if( (muros2->getTipo()==3 || muros2->getTipo()==49) && pj1->getVidas()>=0)
                 {
                     pj2->setPx(inix);
@@ -342,7 +355,7 @@ void MainWindow::onUpdate(){
               if(muros->getTipo()==1){
                   scene->removeItem(bu);
                   for(list<proyectiles *>::iterator non=ammo.begin();non!=ammo.end();non++){
-                      if(bu==*non ){ammo.remove(*non);break;}
+                      if(bu==*non ){delete *non;ammo.remove(*non);break;}
                   }
 
               }
@@ -576,6 +589,11 @@ void MainWindow:: obtener_nivel(int num_nivel)
 
 void MainWindow:: Menu()
 {
+
+    delete pj1;
+    delete pj2;
+    delete player;
+    delete tiempo;
     close();
 }
 
