@@ -562,11 +562,9 @@ void MainWindow:: obtener_nivel(int num_nivel)
     sis.close();
 }
 
-void MainWindow:: Menu(){
-
+void MainWindow:: Menu()
+{
     close();
-
-
 }
 
 void MainWindow::gameover(){
@@ -575,7 +573,17 @@ void MainWindow::gameover(){
     pj1->setPuntaje(0);
     pj1->setNivel(1);
 
-
+    ofstream archivo;
+    archivo.open(pj1->getNombre());
+    archivo<<"/\n";
+    archivo<<pj1->getNivel()<<"\n";
+    archivo<<"/\n";
+    archivo<<pj1->getPuntaje()<<"\n";
+    archivo<<"/\n";
+    archivo<<pj1->getVidas()<<"\n";
+    archivo<<"/\n";
+    archivo<<pj1->getPuntaje_maximo();
+    archivo.close();
     //actualizar archivo de texto
 
 
@@ -591,7 +599,17 @@ void MainWindow::gamefinish(){
     pj1->setPuntaje(0);
     pj1->setNivel(1);
 
-
+    ofstream archivo;
+    archivo.open(pj1->getNombre());
+    archivo<<"/\n";
+    archivo<<pj1->getNivel()<<"\n";
+    archivo<<"/\n";
+    archivo<<pj1->getPuntaje()<<"\n";
+    archivo<<"/\n";
+    archivo<<pj1->getVidas()<<"\n";
+    archivo<<"/\n";
+    archivo<<pj1->getPuntaje_maximo();
+    archivo.close();
     //actualizar archivo de texto (incluir puntaje maximo)
 
 
