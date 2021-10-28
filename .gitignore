@@ -56,3 +56,25 @@ build juego_final/Makefile.Debug
 build juego_final/Makefile.Release
 build juego_final/ui_inicio.h
 build juego_final/ui_mainwindow.h
+build-Juego_Final-Desktop_Qt_5_12_2_MSVC2015_64bit-Debug/.qmake.stash
+build-Juego_Final-Desktop_Qt_5_12_2_MSVC2015_64bit-Debug/debug/coleccionables.obj
+build-Juego_Final-Desktop_Qt_5_12_2_MSVC2015_64bit-Debug/debug/inicio.obj
+build-Juego_Final-Desktop_Qt_5_12_2_MSVC2015_64bit-Debug/debug/Juego_Final.exe
+build-Juego_Final-Desktop_Qt_5_12_2_MSVC2015_64bit-Debug/debug/Juego_Final.ilk
+build-Juego_Final-Desktop_Qt_5_12_2_MSVC2015_64bit-Debug/debug/Juego_Final.pdb
+build-Juego_Final-Desktop_Qt_5_12_2_MSVC2015_64bit-Debug/debug/Juego_Final.vc.pdb
+build-Juego_Final-Desktop_Qt_5_12_2_MSVC2015_64bit-Debug/debug/main.obj
+build-Juego_Final-Desktop_Qt_5_12_2_MSVC2015_64bit-Debug/debug/mainwindow.obj
+build-Juego_Final-Desktop_Qt_5_12_2_MSVC2015_64bit-Debug/debug/moc_inicio.cpp
+build-Juego_Final-Desktop_Qt_5_12_2_MSVC2015_64bit-Debug/debug/moc_inicio.obj
+build-Juego_Final-Desktop_Qt_5_12_2_MSVC2015_64bit-Debug/debug/moc_mainwindow.cpp
+build-Juego_Final-Desktop_Qt_5_12_2_MSVC2015_64bit-Debug/debug/moc_mainwindow.obj
+build-Juego_Final-Desktop_Qt_5_12_2_MSVC2015_64bit-Debug/debug/moc_predefs.h
+build-Juego_Final-Desktop_Qt_5_12_2_MSVC2015_64bit-Debug/debug/objetos.obj
+build-Juego_Final-Desktop_Qt_5_12_2_MSVC2015_64bit-Debug/debug/personaje.obj
+build-Juego_Final-Desktop_Qt_5_12_2_MSVC2015_64bit-Debug/debug/proyectiles.obj
+build-Juego_Final-Desktop_Qt_5_12_2_MSVC2015_64bit-Debug/Makefile
+build-Juego_Final-Desktop_Qt_5_12_2_MSVC2015_64bit-Debug/Makefile.Debug
+build-Juego_Final-Desktop_Qt_5_12_2_MSVC2015_64bit-Debug/Makefile.Release
+build-Juego_Final-Desktop_Qt_5_12_2_MSVC2015_64bit-Debug/ui_inicio.h
+build-Juego_Final-Desktop_Qt_5_12_2_MSVC2015_64bit-Debug/ui_mainwindow.h

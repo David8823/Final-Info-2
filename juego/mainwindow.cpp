@@ -126,14 +126,26 @@ void MainWindow::onUpdate(){
 
                             ofstream archivo;
                             archivo.open(pj1->getNombre());
+
+                            QString hola = QString::fromStdString(pj1->getNombre());
+                            qDebug()<<"nivel: "<< archivo.is_open();
+
                             archivo<<"/\n";
+                            archivo.flush();
                             archivo<<pj1->getNivel()<<"\n";
+                            archivo.flush();
                             archivo<<"/\n";
+                            archivo.flush();
                             archivo<<pj1->getPuntaje()<<"\n";
+                            archivo.flush();
                             archivo<<"/\n";
+                            archivo.flush();
                             archivo<<pj1->getVidas()<<"\n";
+                            archivo.flush();
                             archivo<<"/\n";
+                            archivo.flush();
                             archivo<<pj1->getPuntaje_maximo();
+                            archivo.flush();
                             archivo.close();
                             crearmundo(pj1->getVidas(),pj1->getNivel(),pj1->getPuntaje(),pj1->getNombre(),pj1->getPuntaje_maximo());
                         }

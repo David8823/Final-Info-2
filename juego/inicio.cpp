@@ -153,6 +153,7 @@ void Inicio::on_loadbutton_clicked()
         nombre = _nombre;
         puntaje_maximo=p_max;
         ui->incuenta->clear();
+        datos.close();
         loadclose();
         startgame();
     }
@@ -170,6 +171,7 @@ void Inicio::on_newbutton_clicked()
     ui->invalido->setVisible(false);
     ifstream datos;
     ofstream _datos;
+    fstream datos2;
     QString name;
     name=ui->incuenta->text();
     bool se_puede=0,se_puede2=0;
@@ -184,8 +186,11 @@ void Inicio::on_newbutton_clicked()
         se_puede=1;
         if(!name.isEmpty()){se_puede2=1;}
     }
+
     if(se_puede && se_puede2){
+         datos.close();
         _datos.open(_nombre);
+         qDebug()<<_datos.is_open();
         _datos<<"/\n";
         _datos<<1<<"\n";
         _datos<<"/\n";
@@ -197,6 +202,7 @@ void Inicio::on_newbutton_clicked()
         _datos.close();
         ui->incuenta->clear();
         nombre=_nombre;
+        //datos.close();
         se_puede=0;
         se_puede2=0;
         loadclose();
