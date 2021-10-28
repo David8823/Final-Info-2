@@ -5,7 +5,7 @@
 #include <QDebug>
 #include <string>
 
-#define DT 0.05
+#define DT 0.08
 
 class Personaje : public QGraphicsItem
 {

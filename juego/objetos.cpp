@@ -99,9 +99,9 @@ void objetos::advance(int phase)
         }
     }
 
-    else if(tipo==99){
+    else if(tipo==49){
 
-        if(cont==10){
+        if(cont==1){
             i = i + DT;
             float theta0 = theta * cos(w*i);
             px =pxini + 90 * sin(theta0*rad);
@@ -153,7 +153,7 @@ void objetos::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
        painter->drawImage(j,stair);
    }else if(tipo == 3 ){
        painter->drawImage(j,puas);
-   }else if(tipo == 99){
+   }else if(tipo == 49){
         painter->drawImage(j,pend);
     }else if(tipo == 7){
         painter->drawImage(j,doorc);

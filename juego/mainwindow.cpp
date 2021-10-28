@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 int i=0,f=0;
 int inix,iniy;
-int v,a,dis = 0;
+int v=0,a,dis = 0,tim=0;
 bool multi;
 bool ps = 0;
 MainWindow::MainWindow(QWidget *parent)
@@ -55,6 +55,21 @@ void MainWindow::onUpdate(){
         ui->graphicsView->setScene(scene);
     }
 
+    v=v+1;
+
+    if(v==50){
+        tim++;
+        ui->lcdNumber_3->display(tim);
+        v=0;
+
+    }
+
+    ui->Lvidas->display(pj1->getVidas());
+    ui->lcdNumber_2->display(pj1->getPuntaje());
+    ui->lcdNumber_4->display(pj1->getPuntaje_maximo());
+
+
+
 //========================= colosiones Jugador 1============================================================================================
 
     QList<QGraphicsItem *> colisiones = scene->collidingItems(pj1); //bloques
@@ -85,8 +100,10 @@ void MainWindow::onUpdate(){
 
                 else if(muros2->getTipo()==7){
                     if( (pj1->getNivel()==1 && pj1->getLlaves()==2) || (pj1->getNivel()==2 && pj1->getLlaves()==3) || (pj1->getNivel()==3 && pj1->getLlaves()==5) ){
+                        qDebug()<<"pasando de nivel";
                         pj1->setNivel(pj1->getNivel()+1);
-                        conti=1;
+                        pj1->setPuntaje(pj1->getPuntaje()+2000-(tim*2));
+
                         ofstream archivo;
                         archivo.open(pj1->getNombre());
                         archivo<<"/\n";
@@ -122,7 +139,7 @@ void MainWindow::onUpdate(){
                     }
 
                     else if( (pj1->getPy() > muros2->getPy()) && (pj1->getPy() < muros2->getPy()+40) && (pj1->getPy()+19 > muros2->getPy()) && pj1->getVy() > 0 ){
-                         qDebug()<<"Paso tec";
+                        //qDebug()<<"Paso tec";
                         pj1->setPy(pj1->getPy()+5);
                         pj1->setVx(0);
 
@@ -170,42 +187,30 @@ void MainWindow::onUpdate(){
         if(item)
             if(item->getTipo()==4){
             item->setTipo(3);}
-
         objetos *muros = dynamic_cast<objetos *>(colisionesp2[0]);
         if(muros){
             if(muros->getTipo()==4){
                 muros->setTipo(3);
                 pj2->setVx(0);
                 pj2->setVy(0);}
-
             else if(muros->getTipo()==3 || muros->getTipo()==0){
                 pj2->setPx(inix);
                 pj2->setPy(iniy);
                 pj2->setVidas(pj2->getVidas()-1);
-
-
                 if(pj2->getVidas()==0){scene->removeItem(pj2);}
             }
-
             else if(muros->getTipo()==1 || muros->getTipo()==2){
-
                 pj2->setVy(-0.1*pj2->getVy());
                 pj2->setAy(-0.1*pj2->getAy());
-
             }
         }
-
         else{
             Personaje *personajes = dynamic_cast<Personaje *>(colisionesp2[0]);
             if(personajes){
-
                 pj2->setVy(-0.1*pj2->getVy());
                 pj2->setAy(-0.1*pj2->getAy());
-
-
             }
         }
-
     }
     else{
         pj2->setAy(10);
@@ -290,8 +295,16 @@ void MainWindow::onUpdate(){
               Personaje *personajes = dynamic_cast<Personaje *>(colisionesbotin[0]);
               if(personajes){
                   scene->removeItem(bot);
-                  pj1->setLlaves(pj1->getLlaves()+1);
-                  qDebug()<<"Presione un tecla: "<<pj1->getLlaves();
+                  if(bot->getTipo()==4){
+                    pj1->setLlaves(pj1->getLlaves()+1);
+                    pj1->setPuntaje(pj1->getPuntaje()+1000);
+                    qDebug()<<"numero de llaves: "<<pj1->getLlaves();
+                  }
+                  else if(bot->getTipo()==50){
+                      qDebug()<<"puntaje +100";
+                      pj1->setPuntaje(pj1->getPuntaje()+300);
+                  }
+
                   for(list<Coleccionables *>::iterator non=botin.begin();non!=botin.end();non++){
                       if(bot==*non ){botin.remove(*non);break;}
                   }
@@ -458,13 +471,14 @@ void MainWindow::pause(){
 void MainWindow::crearmundo(int vidas,int level,int score,string name,int p_max){
 
     if(conti==1){scene->destroyed();}
-
+    tim=0;
     scene = new QGraphicsScene(this);
     scene->setSceneRect(0,0,0,0);
     ui->graphicsView->setScene(scene);
     ui->label->setVisible(false);
     ui->Back_Menu->setVisible(false);
 
+    qDebug()<<"nivel actual: "<<level;
 
     int x , y = 0;
     obtener_nivel(level);
@@ -495,6 +509,12 @@ void MainWindow::crearmundo(int vidas,int level,int score,string name,int p_max)
                }
 
                else if(nivel[i][j]==4){
+                   botin.push_back(new Coleccionables(x,y,nivel[i][j]));
+                   scene->addItem(botin.back());
+
+               }
+
+               else if(nivel[i][j]==50){
                    botin.push_back(new Coleccionables(x,y,nivel[i][j]));
                    scene->addItem(botin.back());
 

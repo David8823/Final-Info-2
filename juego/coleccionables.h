@@ -16,6 +16,7 @@ public:
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     Coleccionables(float _px, float _py, int _tipo);
+    int getTipo() const;
 };
 
 #endif // COLECCIONABLES_H

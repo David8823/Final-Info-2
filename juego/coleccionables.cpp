@@ -1,5 +1,10 @@
 #include "coleccionables.h"
 
+int Coleccionables::getTipo() const
+{
+    return tipo;
+}
+
 Coleccionables::Coleccionables()
 {
 
@@ -23,8 +28,13 @@ void Coleccionables::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 {
     QRect j(0,0,20,20);
     QImage llaved("../imagenes/juego final/llaved.png");
+    QImage moneda("../imagenes/juego final/moneda.png");
+
 
     if(tipo==4){
         painter->drawImage(j,llaved);
+    }
+    if(tipo==50){
+        painter->drawImage(j,moneda);
     }
 }

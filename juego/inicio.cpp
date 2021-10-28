@@ -186,7 +186,7 @@ void Inicio::on_newbutton_clicked()
         _datos<<"/\n";
         _datos<<0<<"\n";
         _datos<<"/\n";
-        _datos<<3;
+        _datos<<3<<"\n";
         _datos<<"/\n";
         _datos<<0;
         _datos.close();
