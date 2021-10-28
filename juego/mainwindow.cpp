@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-int i=0,f=0;
+int i=0,f=0,f2=0,i2=0;
 int inix,iniy;
 int v=0,a,dis = 0,tim=0;
 bool multi=0;
@@ -50,18 +50,19 @@ void MainWindow::onUpdate(){
     //ui->graphicsView->ensureVisible(pj1);
     //ui->graphicsView->centerOn(pj1->getPx(),pj1->getPy());
     //scene->setFocusItem(pj1);
-    if(pj1->getPx()==800){
+    if(pj1->getPx()==800)
+    {
         scene->setSceneRect(800,0,0,0);
         ui->graphicsView->setScene(scene);
     }
 
     v=v+1;
 
-    if(v==50){
+    if(v==50)
+    {
         tim++;
         ui->lcdNumber_3->display(tim);
         v=0;
-
     }
 
     ui->Lvidas->display(pj1->getVidas());
@@ -80,8 +81,8 @@ void MainWindow::onUpdate(){
             for(int i=0;i<colisiones.size();i++)
             {
                 //qDebug()<<"Lista"<<colisiones.size();
-                objetos *muros2 = dynamic_cast<objetos *>(colisiones[i]);
-                if( (muros2->getTipo()==3 || muros2->getTipo()==49) && pj1->getVidas()>=0)
+                objetos *muros3 = dynamic_cast<objetos *>(colisiones[i]);
+                if( (muros3->getTipo()==3 || muros3->getTipo()==49) && pj1->getVidas()>=0)
                 {
                     pj1->setPx(inix);
                     pj1->setPy(iniy);
@@ -92,14 +93,15 @@ void MainWindow::onUpdate(){
                 break;
                 }
 
-                else if(muros2->getTipo()==2){
+                else if(muros3->getTipo()==2)
+                {
                     pj1->setAy(0);
                     pj1->setVx(0);
-
                 }
 
-                else if(muros2->getTipo()==7){
-                    if( (pj1->getNivel()==1 && pj1->getLlaves()==2) || (pj1->getNivel()==2 && pj1->getLlaves()==3) || (pj1->getNivel()==3 && pj1->getLlaves()==5) ){
+                else if(muros3->getTipo()==7){
+                    if( (pj1->getNivel()==1 && pj1->getLlaves()==2) || (pj1->getNivel()==2 && pj1->getLlaves()==3) || (pj1->getNivel()==3 && pj1->getLlaves()==5) )
+                    {
                         qDebug()<<"pasando de nivel";
                         pj1->setNivel(pj1->getNivel()+1);
                         pj1->setPuntaje(pj1->getPuntaje()+2000-(tim*5)+(100*pj1->getVidas()));
@@ -116,16 +118,18 @@ void MainWindow::onUpdate(){
                         archivo<<"/\n";
                         archivo<<pj1->getPuntaje()<<"\n";
                         archivo<<"/\n";
-                        archivo<<pj1->getVidas();
+                        archivo<<pj1->getVidas()<<"\n";
+                        archivo<<"/\n";
+                        archivo<<pj1->getPuntaje_maximo();
                         archivo.close();
                         crearmundo(pj1->getVidas(),pj1->getNivel(),pj1->getPuntaje(),pj1->getNombre(),pj1->getPuntaje_maximo());
                     }
                 }
 
-                else if(muros2->getTipo()==1 || muros2->getTipo()==5 || muros2->getTipo()==6)
+                else if(muros3->getTipo()==1 || muros3->getTipo()==5 || muros3->getTipo()==6)
                 {
                                                     //izquierda
-                    if( (pj1->getPx()+19>muros2->getPx()+40)&&(pj1->getPx() < (muros2->getPx()+40)) && (pj1->getPy() > muros2->getPy()) )
+                    if( (pj1->getPx()+19>muros3->getPx()+40)&&(pj1->getPx() < (muros3->getPx()+40)) && (pj1->getPy() > muros3->getPy()) )
                     {
                         //qDebug()<<"Paso iz";
                         pj1->setVy(-0.1*pj1->getVy());
@@ -134,7 +138,7 @@ void MainWindow::onUpdate(){
                         pj1->setPx(pj1->getPx()+3);
                     }
                                                     //derecha
-                    else if( (pj1->getPx()+19>muros2->getPx())&&(pj1->getPx() < muros2->getPx()) && (pj1->getPy() > muros2->getPy()) )
+                    else if( (pj1->getPx()+19>muros3->getPx())&&(pj1->getPx() < muros3->getPx()) && (pj1->getPy() > muros3->getPy()) )
                     {
                         //qDebug()<<"Paso der";
                         pj1->setVy(-0.1*pj1->getVy());
@@ -143,56 +147,55 @@ void MainWindow::onUpdate(){
                         pj1->setPx(pj1->getPx()-3);
                     }
 
-                    else if( (pj1->getPy() > muros2->getPy()) && (pj1->getPy() < muros2->getPy()+40) && (pj1->getPy()+19 > muros2->getPy()) && pj1->getVy() > 0 ){
+                    else if( (pj1->getPy() > muros3->getPy()) && (pj1->getPy() < muros3->getPy()+40) && (pj1->getPy()+19 > muros3->getPy()) && pj1->getVy() > 0 )
+                    {
                         //qDebug()<<"Paso tec";
                         pj1->setPy(pj1->getPy()+5);
                         pj1->setVx(0);
-
-
                     }
                     else
                     {
-                        if(muros2->getTipo()==5 || muros2->getTipo()==6){
+                        if(muros3->getTipo()==5 || muros3->getTipo()==6)
+                        {
                             //if(muros2->getCont()==10){
-                            pj1->setVx(i+muros2->getVx());//}
+                            pj1->setVx(i+muros3->getVx());//}
 
                         }
 
-
-                        if(muros2->getTipo()==6){
+                        if(muros3->getTipo()==6){
                             if(f==1){pj1->setVy(-20);}
 
-                            else{pj1->setVy(muros2->getVy()-4);}
+                            else{pj1->setVy(muros3->getVy()-4);}
                         }
 
-
-                        else{
+                        else
+                        {
                             pj1->setVy(-0.1*pj1->getVy());
                             pj1->setAy(-0.1*pj1->getAy());
                         }
-
-
                     }
                 }
             }
         }
     }
-    else{
+    else
+    {
         pj1->setAy(10);
-
     }
 
 //=====================================================================================================================
 
 //======================== colisones Jugador 2=============================================================================================
 
-    if(multi==1){
+    if(multi==1)
+    {
 
     QList<QGraphicsItem *> colisiones2 = scene->collidingItems(pj2); //bloques
     if(!colisiones2.isEmpty())
     {
-        objetos *muros = dynamic_cast<objetos *>(colisiones[0]);
-        if(muros){
+        objetos *muros4 = dynamic_cast<objetos *>(colisiones2[0]);
+        if(muros4)
+        {
             for(int i=0;i<colisiones2.size();i++)
             {
                 //qDebug()<<"Lista"<<colisiones2.size();
@@ -204,14 +207,14 @@ void MainWindow::onUpdate(){
                     pj1->setVidas(pj1->getVidas()-1);
                     qDebug()<<"Pinchos"<<pj1->getVidas();
                     //qDebug()<<"Pinchos"<<pj1->getPx()<<"vs"<<muros->getPx()<<"  "<<pj1->getPy()<<"vs"<<muros->getPy();
-                if(pj1->getVidas()==0){scene->removeItem(pj1);scene->removeItem(pj2);}
-                break;
+                    if(pj1->getVidas()==0){scene->removeItem(pj1);scene->removeItem(pj2);}
+                    break;
                 }
 
-                else if(muros2->getTipo()==2){
+                else if(muros2->getTipo()==2)
+                {
                     pj2->setAy(0);
                     pj2->setVx(0);
-
                 }
 
                 /*else if(muros2->getTipo()==7){
@@ -258,43 +261,41 @@ void MainWindow::onUpdate(){
                         pj2->setPx(pj2->getPx()-3);
                     }
 
-                    else if( (pj2->getPy() > muros2->getPy()) && (pj2->getPy() < muros2->getPy()+40) && (pj2->getPy()+19 > muros2->getPy()) && pj2->getVy() > 0 ){
+                    else if( (pj2->getPy() > muros2->getPy()) && (pj2->getPy() < muros2->getPy()+40) && (pj2->getPy()+19 > muros2->getPy()) && pj2->getVy() > 0 )
+                    {
                         //qDebug()<<"Paso tec";
                         pj2->setPy(pj2->getPy()+5);
                         pj2->setVx(0);
-
-
                     }
                     else
                     {
-                        if(muros2->getTipo()==5 || muros2->getTipo()==6){
+                        if(muros2->getTipo()==5 || muros2->getTipo()==6)
+                        {
                             //if(muros2->getCont()==10){
                             pj2->setVx(i+muros2->getVx());//}
-
                         }
 
 
-                        if(muros2->getTipo()==6){
-                            if(f==1){pj2->setVy(-20);}
+                        if(muros2->getTipo()==6)
+                        {
+                            if(f2==1){pj2->setVy(-20);}
 
                             else{pj2->setVy(muros2->getVy()-4);}
                         }
 
-
-                        else{
+                        else
+                        {
                             pj2->setVy(-0.1*pj2->getVy());
                             pj2->setAy(-0.1*pj2->getAy());
                         }
-
-
                     }
                 }
             }
         }
     }
-    else{
+    else
+    {
         pj2->setAy(10);
-
     }
     }
 
@@ -352,52 +353,51 @@ void MainWindow::onUpdate(){
 
     copybotin = botin;
     Coleccionables *bot;
-    for(list<Coleccionables *>::iterator n=copybotin.begin();n!=copybotin.end();n++){
+    for(list<Coleccionables *>::iterator n=copybotin.begin();n!=copybotin.end();n++)
+    {
       bot = *n;
       QList<QGraphicsItem *> colisionesbotin = scene->collidingItems(bot);
-      if(!colisionesbotin.isEmpty()){
-
-
+      if(!colisionesbotin.isEmpty())
+      {
           objetos *muros = dynamic_cast<objetos *>(colisionesbotin[0]);
-          if(muros){
-              if(muros->getTipo()==1){
+          if(muros)
+          {
+              if(muros->getTipo()==1)
+              {
                   scene->removeItem(bot);
-                  for(list<Coleccionables *>::iterator non=botin.begin();non!=botin.end();non++){
+                  for(list<Coleccionables *>::iterator non=botin.begin();non!=botin.end();non++)
+                  {
                       if(bot==*non ){botin.remove(*non);break;}
                   }
-
-              }
-
-              else{
-
               }
           }
-
-          else{
+          else
+          {
               Personaje *personajes = dynamic_cast<Personaje *>(colisionesbotin[0]);
-              if(personajes){
+              if(personajes)
+              {
                   scene->removeItem(bot);
-                  if(bot->getTipo()==4){
+                  if(bot->getTipo()==4)
+                  {
                     pj1->setLlaves(pj1->getLlaves()+1);
                     pj1->setPuntaje(pj1->getPuntaje()+500);
                     qDebug()<<"numero de llaves: "<<pj1->getLlaves();
                   }
-                  else if(bot->getTipo()==50){
+
+                  else if(bot->getTipo()==50)
+                  {
                       qDebug()<<"puntaje +100";
                       pj1->setPuntaje(pj1->getPuntaje()+100);
                   }
 
-                  for(list<Coleccionables *>::iterator non=botin.begin();non!=botin.end();non++){
+                  for(list<Coleccionables *>::iterator non=botin.begin();non!=botin.end();non++)
+                  {
                       if(bot==*non ){botin.remove(*non);break;}
                   }
 
                   if(pj1->getVidas()==0){scene->removeItem(pj1);}
-
-
               }
-
           }
-
       }
     }
 
@@ -440,7 +440,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                         //if(muros->getTipo()==2){pj2->setVy(-10);}
 
                         //else{pj2->setVy(-40);}
-                        f=1;
+                        f2=1;
                         pj2->setVy(-40);
                     }
                 }
@@ -484,11 +484,11 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event){
         //qDebug()<<"Presione un tecla: "<<event->key();
         if(event->key() == Qt::Key_J){
             pj2->setVx(0);
-            i=0;
+            i2=0;
         }else if(event->key() == Qt::Key_L){
             pj2->setVx(0);
         }else if(event->key() == Qt::Key_I){
-            f=0;
+            f2=0;
         }
 //=====================================================================================================================
 

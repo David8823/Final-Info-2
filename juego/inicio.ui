@@ -170,7 +170,7 @@ border-color: rgb(255, 170, 0);</string>
    <widget class="QLabel" name="fondocon">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>240</x>
       <y>110</y>
       <width>251</width>
       <height>191</height>

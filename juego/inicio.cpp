@@ -108,17 +108,14 @@ void Inicio::on_loadbutton_clicked()
 {
     ui->invalido->setVisible(false);
     ifstream datos;
-    ofstream _datos;
     QString name=ui->incuenta->text();//,nivel,puntaje;
     string _nombre="../partidas/"+name.toStdString()+".txt",dato="";
     int puntaje=0, nivel=0, vida=0, cont=0, p_max=0;
     char* pEnd;
-    //string _nivel, _puntaje;
     datos.open(_nombre);
     if(datos.is_open())
     {
-        qDebug()<<"el usuario ya existe"<<endl;
-        ui->incuenta->clear();
+        qDebug()<<"cargando partida"<<endl;
         while(!datos.eof())
             {
                 getline(datos,dato);
@@ -144,26 +141,22 @@ void Inicio::on_loadbutton_clicked()
                 }
                 dato="";
             }
-            datos.close();
+
         vidas = vida;
         score = puntaje;
         level = nivel;
         nombre = _nombre;
         puntaje_maximo=p_max;
-        startgame();
+        ui->incuenta->clear();
         loadclose();
+        startgame();
     }
     else
     {
-        /*_datos.open(_nombre);
-        nivel=ui->nivel->text();
-        puntaje=ui->puntos->text();
-        _nivel=nivel.toStdString();
-        _datos<<_nivel<<"\n/\n";
-        _puntaje=puntaje.toStdString();
-        _datos<<_puntaje;*/
         ui->invalido->setVisible(true);
+        ui->incuenta->clear();
     }
+    datos.close();
 }
 
 
@@ -172,14 +165,21 @@ void Inicio::on_newbutton_clicked()
     ui->invalido->setVisible(false);
     ifstream datos;
     ofstream _datos;
-    QString name=ui->incuenta->text();
+    QString name;
+    name=ui->incuenta->text();
+    bool se_puede=0,se_puede2=0;
     string _nombre="../partidas/"+name.toStdString()+".txt",dato="";
     datos.open(_nombre);
     if(datos.is_open()){
         ui->incuenta->clear();
         ui->invalido->setVisible(true);
     }
-    else{
+    else
+    {
+        se_puede=1;
+        if(!name.isEmpty()){se_puede2=1;}
+    }
+    if(se_puede && se_puede2){
         _datos.open(_nombre);
         _datos<<"/\n";
         _datos<<1<<"\n";
@@ -190,9 +190,13 @@ void Inicio::on_newbutton_clicked()
         _datos<<"/\n";
         _datos<<0;
         _datos.close();
+        ui->incuenta->clear();
         nombre=_nombre;
-        startgame();
+        se_puede=0;
+        se_puede2=0;
         loadclose();
+        startgame();    
     }
+    datos.close();
 }
 
