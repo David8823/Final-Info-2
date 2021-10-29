@@ -186,9 +186,9 @@ void Inicio::on_newbutton_clicked()
         se_puede=1;
         if(!name.isEmpty()){se_puede2=1;}
     }
-
+    datos.close();
     if(se_puede && se_puede2){
-         datos.close();
+
         _datos.open(_nombre);
          qDebug()<<_datos.is_open();
         _datos<<"/\n";
@@ -208,6 +208,6 @@ void Inicio::on_newbutton_clicked()
         loadclose();
         startgame();    
     }
-    datos.close();
+    //datos.close();
 }
 
